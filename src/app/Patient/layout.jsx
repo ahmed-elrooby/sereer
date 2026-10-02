@@ -34,7 +34,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html >
-      <body className="bg-blue-300">
+      <body >
         <Header/>
         {children}</body>
     </html>

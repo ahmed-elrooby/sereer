@@ -57,7 +57,7 @@ const Incubator = () => {
       : hospitals;
 
   return (
-    <main className="min-h-[calc(100vh-72px)]  px-4 py-6 md:px-6 md:py-8">
+    <main className="min-h-[calc(100vh-72px)] bg-slate-50 px-4 py-6 md:px-6 md:py-8">
       <div className="max-w-5xl mx-auto">
         {/* Header */}
         <div className="mb-6">
@@ -146,7 +146,7 @@ const Incubator = () => {
             return (
               <div
                 key={hospital.id}
-                className="p-5 transition bg-white border shadow-sm rounded-3xl border-slate-200 hover:shadow-md md:p-6"
+                className="p-5 transition bg-white border-2 border-blue-600 shadow-sm rounded-3xl hover:shadow-md md:p-6"
               >
                 {/* Hospital Header */}
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">

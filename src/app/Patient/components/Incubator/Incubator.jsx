@@ -57,7 +57,7 @@ const Incubator = () => {
       : hospitals;
 
   return (
-    <main className="min-h-[calc(100vh-72px)] bg-slate-50 px-4 py-6 md:px-6 md:py-8">
+    <main className="min-h-[calc(100vh-72px)]  px-4 py-6 md:px-6 md:py-8">
       <div className="max-w-5xl mx-auto">
         {/* Header */}
         <div className="mb-6">

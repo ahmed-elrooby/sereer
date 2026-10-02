@@ -11,8 +11,8 @@ const LocationPermissionModal = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/40 px-4 backdrop-blur-sm">
-      <div className="w-full max-w-md p-6 bg-white shadow-2xl rounded-3xl sm:p-8">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center  px-4 backdrop-blur-sm">
+      <div className="w-full max-w-md p-6 shadow-2xl rounded-3xl sm:p-8">
 
         {/* Icon */}
         <div className="flex items-center justify-center w-16 h-16 mx-auto mb-5 text-blue-600 rounded-2xl bg-blue-50">

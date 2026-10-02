@@ -19,7 +19,7 @@ const Home = () => {
   };
 
   return (
-    <main className="min-h-[calc(100vh-72px)] bg-slate-50 px-4 py-8 md:px-6 md:py-12">
+    <main className="min-h-[calc(100vh-72px)]  px-4 py-8 md:px-6 md:py-12">
       <div className="mx-auto flex min-h-[calc(100vh-136px)] max-w-5xl flex-col justify-center">
 
         {/* Header */}

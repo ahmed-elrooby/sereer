@@ -1,9 +1,9 @@
 import React from 'react'
-import Login from './components/Login/Login.jsx'
+import Profile from '../components/Profile/Profile.jsx'
 
 const page = () => {
   return <>
-  <Login/>
+  <Profile/>
   </>
 }
 

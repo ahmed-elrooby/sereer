@@ -1,9 +1,9 @@
 import React from 'react'
-import Login from './components/Login/Login.jsx'
+import Accounts from '../components/Accounts/Accounts.jsx'
 
 const page = () => {
   return <>
-  <Login/>
+  <Accounts/>
   </>
 }
 

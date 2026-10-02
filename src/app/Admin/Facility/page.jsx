@@ -1,9 +1,10 @@
 import React from 'react'
-import Login from './components/Login/Login.jsx'
+import Facility from '../components/Facility/Facility.jsx'
 
 const page = () => {
   return <>
-  <Login/>
+  <Facility/>
+  
   </>
 }
 

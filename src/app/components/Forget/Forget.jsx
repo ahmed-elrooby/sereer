@@ -20,7 +20,7 @@ import { authContext } from "../../providers/Auth.jsx";
 
 
 const Forget = () => {
-const {handleForgetPasswordSubmit} = useContext(authContext);
+const {handleForgetPasswordSubmit,loadding} = useContext(authContext);
   const initialValues = {
     email: "",
   };
@@ -139,11 +139,10 @@ const {handleForgetPasswordSubmit} = useContext(authContext);
 
                   <button
                     type="submit"
-                    disabled={isSubmitting}
                     className="flex w-full items-center justify-center gap-2 rounded-xl bg-blue-600 py-3.5 text-sm font-semibold text-white transition hover:bg-blue-700 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-60"
                   >
 
-                    {isSubmitting ? (
+                    {loadding ? (
                       "جاري الإرسال..."
                     ) : (
                       <>

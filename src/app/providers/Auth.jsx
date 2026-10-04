@@ -200,6 +200,40 @@ const handleForgetPasswordMutation = useMutation({
 const handleForgetPasswordSubmit = (values) => {
   handleForgetPasswordMutation.mutate(values);
 };
+// ================ RESET PASSWORD =============
+const handleResetPassword = async ({token,values}) => {
+  try {
+    setLoading(true);
+    const { data } = await api.post(`/auth/reset-password/${token}`, values);
+    return data;
+  } catch (error) {
+    throw error;
+  }finally {
+    setLoading(false);
+  }
+}
+const handleResetPasswordMutation = useMutation({
+  mutationKey: ["resetPassword"],
+  mutationFn: handleResetPassword,
+
+  onSuccess:  (data) => {
+    toast.success(
+      data?.message || "تم تغيير كلمة المرور بنجاح"
+    );
+    router.push("/")
+  },
+
+  onError: (error) => {
+    toast.error(
+      error?.response?.data?.message ||
+        "حدث خطاء اثناء تغيير كلمة المرور"
+    );
+  },
+});
+
+const handleResetPasswordSubmit = ({token,values}) => {
+  handleResetPasswordMutation.mutate({token,values});
+};
  
   return (
     <authContext.Provider
@@ -209,7 +243,7 @@ const handleForgetPasswordSubmit = (values) => {
         profile,
 
         handleLoginSubmit,
-
+handleResetPasswordSubmit,
        loadding,
         handleUpdateProfileSubmit,
         openUpdateProfile,

@@ -7,7 +7,6 @@ const Header = () => {
     <header className="sticky top-0 z-50 w-full border-b border-slate-100 bg-white/95 backdrop-blur-sm">
       
       {/* Background Circle */}
-<div className="absolute -translate-x-1/2 rounded-full pointer-events-none -top-24 left-1/2 h-80 w-80 bg-blue-100/60 blur-xl" />
       <div className="relative z-10  flex h-[72px]  items-center justify-between px-4 md:px-36">
 
         <Link

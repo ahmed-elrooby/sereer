@@ -3,12 +3,14 @@
 import React, { useState } from "react";
 import Aside from "./components/Aside/Aside.jsx";
 import Header from "./components/Header/Header.jsx";
+import HospitalContext from "../providers/HospitalContext.jsx";
 
 
 const Layout = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  return (
+  return <>
+  <HospitalContext>
     <div
       className="min-h-screen bg-slate-50 text-slate-900"
     >
@@ -41,7 +43,10 @@ const Layout = ({ children }) => {
         </main>
       </div>
     </div>
-  );
+  </HospitalContext>
+  
+    
+</>
 };
 
 export default Layout;

@@ -161,7 +161,40 @@ const Icu = () => {
                 )}
               </div>
 
-           
+              {/* Information */}
+              <div className="flex items-center justify-between py-4 mt-5  border-y border-slate-100">
+
+                <div className="flex items-center gap-3">
+                  <div className="flex items-center justify-center text-blue-600 rounded-lg h-9 w-9 bg-blue-50">
+                    <FaLocationDot size={14} />
+                  </div>
+
+                  <div>
+                    <span className="block text-xs text-slate-400">
+                      المسافة
+                    </span>
+                    <span className="text-sm font-semibold text-slate-700">
+                      {hospital.distance}
+                    </span>
+                  </div>
+                </div>
+<div className="flex items-center col-span-2 gap-3 md:col-span-1">
+                  <div className="flex items-center justify-center rounded-lg h-9 w-9 bg-slate-100 text-slate-500">
+                    <FaClock size={14} />
+                  </div>
+
+                  <div>
+                    <span className="block text-xs text-slate-400">
+                      آخر تحديث
+                    </span>
+                    <span className="text-sm font-semibold text-slate-700">
+                      {hospital.updated}
+                    </span>
+                  </div>
+                </div>
+
+                
+              </div>
 
               {/* Actions */}
               <div className="flex flex-col gap-3 mt-5 sm:flex-row">

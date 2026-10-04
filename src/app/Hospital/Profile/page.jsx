@@ -1,9 +1,9 @@
 import React from 'react'
-import Accounts from '../components/Accounts/Accounts.jsx'
+import Profile from '../components/Profile/Profile.jsx'
 
 const page = () => {
   return <>
-  <Accounts/>
+  <Profile/>
   </>
 }
 

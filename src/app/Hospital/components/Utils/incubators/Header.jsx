@@ -1,10 +1,18 @@
 "use client";
 
-import React from "react";
+import React, { useContext } from "react";
 import { FaBaby, FaPlus, FaRotate } from "react-icons/fa6";
+import { Hospital } from "../../../../providers/HospitalContext.jsx";
+import AddIncu from "./AddIncu.jsx";
 
-const Header = ({ onRefresh, onAddBed }) => {
-  return (
+const Header = () => {
+  const {openAddIncu,setOpenAddIncu}=useContext(Hospital);
+  return <>
+  {
+    openAddIncu && <AddIncu />
+  }
+
+ 
     <section className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
       {/* Title */}
       <div>
@@ -29,7 +37,6 @@ const Header = ({ onRefresh, onAddBed }) => {
       <div className="flex items-center gap-2">
         <button
           type="button"
-          onClick={onRefresh}
           className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-600 transition hover:border-blue-200 hover:text-blue-600"
         >
           <FaRotate size={14} />
@@ -38,7 +45,9 @@ const Header = ({ onRefresh, onAddBed }) => {
 
         <button
           type="button"
-          onClick={onAddBed}
+          onClick={()=>{
+            setOpenAddIncu(true)
+          }}
           className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700"
         >
           <FaPlus size={14} />
@@ -46,7 +55,7 @@ const Header = ({ onRefresh, onAddBed }) => {
         </button>
       </div>
     </section>
-  );
+   </>
 };
 
 export default Header;

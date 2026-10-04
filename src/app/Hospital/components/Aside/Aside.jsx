@@ -1,50 +1,68 @@
 "use client";
 
-import React from "react";
+import React, { useContext } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+
 import {
   FaBedPulse,
   FaHouse,
   FaBaby,
   FaHeartPulse,
-  FaBell,
   FaGear,
   FaHospital,
   FaArrowRightFromBracket,
   FaXmark,
+  FaUser,
 } from "react-icons/fa6";
 
+import { authContext } from "../../../providers/Auth.jsx";
+
 const Aside = ({ sidebarOpen, setSidebarOpen }) => {
+  const { profile,handleLogoutSubmit } = useContext(authContext);
+
   const pathname = usePathname();
+
+  // خدمات المستشفى
+  const services = profile?.data?.facility?.services || [];
+
+  // هل المستشفى عندها حضّانات؟
+  const hasNICU = services.includes("NICU");
+
+  // هل المستشفى عندها عناية مركزة؟
+  const hasICU = services.includes("ICU");
 
   const navItems = [
     {
       label: "الرئيسية",
       href: "/Hospital",
       icon: FaHouse,
+      show: true,
     },
+
     {
       label: "الحضّانات",
       href: "/Hospital/Incubators",
       icon: FaBaby,
+      show: hasNICU,
     },
+
     {
       label: "العناية المركزة",
       href: "/Hospital/Icu",
       icon: FaHeartPulse,
+      show: hasICU,
     },
+
     {
-      label: "الإشعارات",
-      href: "/Hospital/notifications",
-      icon: FaBell,
+      label: "الملف الشخصي",
+      href: "/Hospital/Profile",
+      icon: FaUser,
       badge: 3,
+      show: true,
     },
-    {
-      label: "الإعدادات",
-      href: "/hospital/settings",
-      icon: FaGear,
-    },
+
+    
   ];
 
   return (
@@ -92,42 +110,43 @@ const Aside = ({ sidebarOpen, setSidebarOpen }) => {
 
       {/* Navigation */}
       <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
-        {navItems.map((item) => {
-          const Icon = item.icon;
+        {navItems
+          .filter((item) => item.show)
+          .map((item) => {
+            const Icon = item.icon;
 
-          const isActive = pathname === item.href
-             
+            const isActive = pathname === item.href;
 
-          return (
-            <Link
-              key={item.href}
-              href={item.href}
-              onClick={() => setSidebarOpen(false)}
-              className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition ${
-                isActive
-                  ? "bg-blue-50 font-semibold text-blue-700"
-                  : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
-              }`}
-            >
-              <Icon
-                size={17}
-                className={
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                onClick={() => setSidebarOpen(false)}
+                className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition ${
                   isActive
-                    ? "text-blue-600"
-                    : "text-slate-400"
-                }
-              />
+                    ? "bg-blue-50 font-semibold text-blue-700"
+                    : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
+                }`}
+              >
+                <Icon
+                  size={17}
+                  className={
+                    isActive
+                      ? "text-blue-600"
+                      : "text-slate-400"
+                  }
+                />
 
-              <span>{item.label}</span>
+                <span>{item.label}</span>
 
-              {item.badge && (
-                <span className="ms-auto rounded-full bg-red-50 px-2 py-0.5 text-[11px] font-bold text-red-600">
-                  {item.badge}
-                </span>
-              )}
-            </Link>
-          );
-        })}
+                {item.badge && (
+                  <span className="ms-auto rounded-full bg-red-50 px-2 py-0.5 text-[11px] font-bold text-red-600">
+                    {item.badge}
+                  </span>
+                )}
+              </Link>
+            );
+          })}
       </nav>
 
       {/* Hospital Info */}
@@ -139,7 +158,7 @@ const Aside = ({ sidebarOpen, setSidebarOpen }) => {
 
           <div className="min-w-0">
             <p className="text-sm font-semibold truncate">
-              مستشفى النور التخصصي
+              {profile?.data?.facility?.name || "المستشفى"}
             </p>
 
             <p className="mt-0.5 text-[11px] text-slate-500">
@@ -149,7 +168,7 @@ const Aside = ({ sidebarOpen, setSidebarOpen }) => {
         </div>
 
         <button
-          type="button"
+          type="button"onClick={handleLogoutSubmit}
           className="flex w-full items-center justify-center gap-2 rounded-xl bg-red-50 px-3 py-2.5 text-sm font-semibold text-red-600 transition hover:bg-red-100"
         >
           <FaArrowRightFromBracket size={15} />
@@ -161,3 +180,4 @@ const Aside = ({ sidebarOpen, setSidebarOpen }) => {
 };
 
 export default Aside;
+

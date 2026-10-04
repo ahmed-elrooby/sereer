@@ -1,9 +1,16 @@
-import React from "react";
+"use client";
+import React, { useContext } from "react";
 import { FaFileExport, FaPlus } from "react-icons/fa6";
+import { admin } from "../../../../providers/AdminContext.jsx";
+import AddFacility from "./AddFacility.jsx";
 
 const Header = () => {
-  return (
-    <div className="flex flex-col mt-8 md:mt-14 gap-7 lg:flex-row lg:items-end lg:justify-between">
+  const {openAddFacility, setOpenAddFacility}=useContext(admin)
+  return <>
+  {
+    openAddFacility && <AddFacility/>
+  }
+  <div className="flex flex-col mt-8 md:mt-14 gap-7 lg:flex-row lg:items-end lg:justify-between">
       {/* Title */}
       <div className="min-w-0">
         <div className="flex items-center gap-3 text-[10px] tracking-[0.3em] text-[#94A3B8]">
@@ -47,6 +54,8 @@ const Header = () => {
 
         {/* Add Facility */}
         <button
+                onClick={()=>setOpenAddFacility(true)}
+
           className="
             inline-flex items-center gap-2
             rounded-xl
@@ -62,8 +71,10 @@ const Header = () => {
           إضافة منشأة
         </button>
       </div>
-    </div>
-  );
+    </div> 
+  </>
+   
+  
 };
 
 export default Header;

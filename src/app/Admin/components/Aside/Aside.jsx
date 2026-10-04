@@ -1,11 +1,13 @@
 "use client";
 
-import React from "react";
+import React, { useContext } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { FaArrowLeft } from "react-icons/fa6";
+import { authContext } from "../../../providers/Auth.jsx";
 
 const Aside = ({ sidebarOpen, closeSidebar }) => {
+  const {handleLogoutSubmit} = useContext(authContext);
   const pathname = usePathname();
 
   const mainLinks = [
@@ -18,12 +20,7 @@ const Aside = ({ sidebarOpen, closeSidebar }) => {
       number: "02",
       label: "المنشآت الطبية",
       href: "/Admin/Facility",
-    },
-    {
-      number: "03",
-      label: "حسابات المنشآت",
-      href: "/Admin/Accounts",
-    },
+    }
   ];
 
   const accountLinks = [
@@ -227,6 +224,7 @@ const Aside = ({ sidebarOpen, closeSidebar }) => {
         {/* Footer */}
         <div className="border-t border-[#263244] px-4 pb-6 pt-5">
           <button
+            onClick={handleLogoutSubmit}
             className="
               flex w-full items-center justify-between
               rounded-xl px-3.5 py-3

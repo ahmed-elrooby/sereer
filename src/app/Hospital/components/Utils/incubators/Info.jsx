@@ -1,16 +1,30 @@
 "use client";
 
-import React from "react";
+import React, { useContext, useMemo } from "react";
 import {
   FaMobileScreenButton,
   FaBaby,
-  FaClock,
 } from "react-icons/fa6";
 
-const Info = ({
-  available = 4,
-  updatedAt = "منذ 2 دقيقة",
-}) => {
+import { Hospital } from "../../../../providers/HospitalContext.jsx";
+
+const Info = () => {
+  const { units } = useContext(Hospital);
+
+  const availableBeds = useMemo(() => {
+    return (units?.data || [])
+      .filter(
+        (unit) =>
+          unit.type === "NICU" &&
+          unit.isActive !== false
+      )
+      .reduce(
+        (total, unit) =>
+          total + Number(unit.availableBeds || 0),
+        0
+      );
+  }, [units]);
+
   return (
     <section className="p-4 mt-4 bg-white border shadow-sm rounded-2xl border-slate-200 md:mt-7 sm:p-5">
       <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
@@ -26,7 +40,7 @@ const Info = ({
             </p>
 
             <p className="mt-0.5 text-[11px] text-slate-500">
-              يتم تحديث البيانات تلقائيًا
+              عدد الأسرة المتاحة حاليًا في الحضّانات
             </p>
           </div>
         </div>
@@ -40,20 +54,12 @@ const Info = ({
             />
 
             <span className="text-lg font-bold leading-none text-emerald-600">
-              {available}
+              {availableBeds}
             </span>
 
             <span className="text-xs text-emerald-700">
-              حضّانة متاحة
+              سرير متاح
             </span>
-          </div>
-
-          <div className="flex items-center gap-1.5 text-[11px] text-slate-500">
-            <FaClock size={12} />
-
-            <span>آخر تحديث</span>
-
-            <span>{updatedAt}</span>
           </div>
         </div>
       </div>

@@ -91,7 +91,82 @@ const Auth = ({ children }) => {
   const user = profile?.data?.user || null;
 
   const role = user?.role || null;
+// ================= UPDATE PROFILE ================
+const handleUpdateProfile = async (values) => {
+  try {
+    setLoading(true);
+    const { data } = await api.put("/profile", values);
+    return data;
+  } catch (error) {
+    throw error;
+  }finally {
+    setLoading(false);
+  }
+}
+const [openUpdateProfile, setOpenUpdateProfile] = useState(false);
 
+const handleUpdateProfileMutation = useMutation({
+  mutationKey: ["updateProfile"],
+  mutationFn: handleUpdateProfile,
+
+  onSuccess:  (data) => {
+           profileQuery.invalidateQueries(["profile"])
+
+    toast.success(
+      data?.message || "تم تحديث بيانات المستخدم بنجاح"
+    );
+    setOpenUpdateProfile(false);
+  },
+
+  onError: (error) => {
+    toast.error(
+      error?.response?.data?.message ||
+        "حدث خطاء اثناء تحديث بيانات المستخدم"
+    );
+  },
+});
+
+const handleUpdateProfileSubmit = (values) => {
+  handleUpdateProfileMutation.mutate(values);
+};
+// ============== LOGOUT =============
+const handleLogout = async () => {
+  try {
+    setLoading(true);
+
+    const { data } = await api.post("/auth/logout");
+
+    return data;
+  } catch (error) {
+    throw error;
+  } finally {
+    setLoading(false);
+  }
+};
+const handleLogoutMutation = useMutation({
+  mutationKey: ["logout"],
+
+  mutationFn: handleLogout,
+
+  onSuccess: (data) => {
+    toast.success(
+      data?.message || "تم تسجيل الخروج بنجاح"
+    );
+router.push("/");
+
+  },
+
+  onError: (error) => {
+    toast.error(
+      error?.response?.data?.message ||
+        "حدث خطأ أثناء تسجيل الخروج"
+    );
+  },
+});
+
+const handleLogoutSubmit = () => {
+  handleLogoutMutation.mutate();
+};
   return (
     <authContext.Provider
       value={{
@@ -101,7 +176,10 @@ const Auth = ({ children }) => {
 
         handleLoginSubmit,
 
-       loadding
+       loadding,
+        handleUpdateProfileSubmit,
+        openUpdateProfile,
+        setOpenUpdateProfile,handleLogoutSubmit
       }}
     >
       {children}

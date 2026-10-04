@@ -17,21 +17,18 @@ import {
   FaPowerOff,
   FaFolderOpen,
   FaRotateLeft,
+  FaTrash,
 } from "react-icons/fa6";
 
 import { admin } from "../../../../providers/AdminContext.jsx";
+import DeleteFacility from "./DeleteFacility.jsx";
+import ChangeStatus from "./ChangeStatus.jsx";
+import UpdateFacility from "./UpdateFacility.jsx";
 
 const Table = () => {
-  const { facility } = useContext(admin);
+  const { facility,setOpenDeleteFacility, openDeteFacility,
+     openChangeStatusFacility, setOpenChangeStatusFacility, openEditFacility, setOpenEditFacility } = useContext(admin);
 
-  /*
-   * API response:
-   *
-   * {
-   *   success: true,
-   *   facilities: [...]
-   * }
-   */
 
   const facilities = facility?.facilities || [];
 
@@ -43,7 +40,7 @@ const Table = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
   const itemsPerPage = 5;
-
+const [selectFacility,setSelectFacility] = useState(null) 
   // ----------------------------------------
   // Get beds from facility units
   // ----------------------------------------
@@ -198,9 +195,29 @@ const Table = () => {
       Math.max(prev - 1, 1)
     );
   };
+const getServiceLabel = (service) => {
+  switch (service) {
+    case "NICU":
+      return "حضّانات الأطفال";
 
+    case "ICU":
+      return "العناية المركزة";
+
+    default:
+      return service;
+  }
+};
   return (
     <>
+    {
+      openDeteFacility && <DeleteFacility selectFacility={selectFacility}/>
+    }
+    {
+      openChangeStatusFacility && <ChangeStatus selectFacility={selectFacility}/>
+    }
+    {
+      openEditFacility && <UpdateFacility selectFacility={selectFacility}/>
+    }
       {/* ================================
           Search + Filters
       ================================= */}
@@ -462,27 +479,16 @@ const Table = () => {
                       {/* Services */}
 
                       <div className="col-span-6 flex flex-wrap gap-1.5 lg:col-span-2">
-                        {facility.services?.length >
-                        0 ? (
-                          facility.services.map(
-                            (service) => (
-                              <span
-                                key={
-                                  service
-                                }
-                                className="rounded-md border border-[#263244] px-2 py-0.5 text-[10px] text-[#94A3B8]"
-                              >
-                                {
-                                  service
-                                }
-                              </span>
-                            )
-                          )
-                        ) : (
-                          <span className="text-[10px] text-[#64748B]">
-                            لا توجد خدمات
-                          </span>
-                        )}
+                   {facility.services.map(
+  (service) => (
+    <span
+      key={service}
+      className="rounded-md border border-[#263244] px-2 py-0.5 text-[10px] text-[#94A3B8]"
+    >
+      {getServiceLabel(service)}
+    </span>
+  )
+)}
                       </div>
 
                       {/* Beds */}
@@ -540,52 +546,110 @@ const Table = () => {
 
                       {/* Actions */}
 
-                      <div className="flex items-center col-span-6 gap-1 lg:col-span-2 lg:justify-end">
-                        {/* Edit */}
+                
+{/* Actions */}
+<div className="col-span-6 flex items-center justify-end gap-1.5 lg:col-span-2">
 
-                        <button
-                          className="flex h-8 w-8 items-center justify-center rounded-lg text-[#94A3B8] transition-all duration-200 hover:bg-[#080B12] hover:text-[#38BDF8]"
-                          aria-label="تعديل"
-                        >
-                          <FaPenToSquare className="text-[13px]" />
-                        </button>
+  {/* Edit */}
+  <button
+    type="button"
+    onClick={()=>{
+      setSelectFacility(facility)
+      setOpenEditFacility(true)
+    }}
+    className="
+      group flex h-9 w-9 items-center justify-center
+      rounded-xl
+      border border-transparent
+      text-[#94A3B8]
+      transition-all duration-200
+      hover:border-[#38BDF8]/20
+      hover:bg-[#38BDF8]/10
+      hover:text-[#38BDF8]
+      active:scale-95
+    "
+    aria-label="تعديل"
+    title="تعديل المنشأة"
+  >
+    <FaPenToSquare
+      className="
+        text-[13px]
+        transition-transform duration-200
+        group-hover:scale-110
+      "
+    />
+  </button>
 
-                        {/* View */}
+  {/* Delete */}
+  <button
+    type="button"
+    onClick={(e) => {
+      e.stopPropagation();
+      setSelectFacility(facility);
+      setOpenDeleteFacility(true);
+    }}
+    className="
+      group flex h-9 w-9 items-center justify-center
+      rounded-xl
+      border border-transparent
+      text-[#94A3B8]
+      transition-all duration-200
+      hover:border-red-500/20
+      hover:bg-red-500/10
+      hover:text-red-400
+      active:scale-95
+    "
+    aria-label="حذف"
+    title="حذف المنشأة"
+  >
+    <FaTrash
+      className="
+        text-[13px]
+        transition-transform duration-200
+        group-hover:scale-110
+      "
+    />
+  </button>
 
-                        <button
-                          className="flex h-8 w-8 items-center justify-center rounded-lg text-[#94A3B8] transition-all duration-200 hover:bg-[#080B12] hover:text-[#38BDF8]"
-                          aria-label="عرض"
-                        >
-                          <FaArrowLeft className="text-[12px]" />
-                        </button>
+  
 
-                        {/* Disable / Enable */}
+  {/* Enable / Disable */}
+  <button
+    type="button"
+    onClick={(e) => {
+      e.stopPropagation();
 
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
+      setSelectFacility(facility);
+      setOpenChangeStatusFacility(true);
+    }}
+    className={`
+      group flex h-9 w-9 items-center justify-center
+      rounded-xl
+      border border-transparent
+      text-[#94A3B8]
+      transition-all duration-200
+      active:scale-95
+      ${
+        isActive
+          ? "hover:border-red-500/20 hover:bg-red-500/10 hover:text-red-400"
+          : "hover:border-green-500/20 hover:bg-green-500/10 hover:text-green-400"
+      }
+    `}
+    aria-label={isActive ? "تعطيل المنشأة" : "تفعيل المنشأة"}
+    title={isActive ? "تعطيل المنشأة" : "تفعيل المنشأة"}
+  >
+    <FaPowerOff
+      className="
+        text-[13px]
+        transition-transform duration-200
+        group-hover:scale-110
+      "
+    />
+  </button>
 
-                            // هنا بعدين نربطها بالـ API
-                          }}
-                          className={`flex h-8 w-8 items-center justify-center rounded-lg text-[#94A3B8] transition-all duration-200 ${
-                            isActive
-                              ? "hover:bg-[#080B12] hover:text-[#EF4444]"
-                              : "hover:bg-[#080B12] hover:text-[#22C55E]"
-                          }`}
-                          aria-label={
-                            isActive
-                              ? "تعطيل الحساب"
-                              : "تفعيل الحساب"
-                          }
-                          title={
-                            isActive
-                              ? "تعطيل الحساب"
-                              : "تفعيل الحساب"
-                          }
-                        >
-                          <FaPowerOff className="text-[13px]" />
-                        </button>
-                      </div>
+</div>
+
+
                     </article>
                   );
                 }
@@ -793,6 +857,12 @@ const Table = () => {
                       </div>
 
                       <button
+                        onClick={() =>
+                          {
+                            setSelectFacility(facility);
+                            setOpenChangeStatusFacility(true);
+                          }  
+                        }
                         className={`flex h-8 w-8 items-center justify-center rounded-lg text-[#94A3B8] transition-all ${
                           isActive
                             ? "hover:bg-[#080B12] hover:text-[#EF4444]"
@@ -822,9 +892,7 @@ const Table = () => {
                               }
                               className="rounded-md border border-[#263244] px-2 py-0.5 text-[10px] text-[#94A3B8]"
                             >
-                              {
-                                service
-                              }
+                         {getServiceLabel(service)}
                             </span>
                           )
                         )
@@ -858,12 +926,73 @@ const Table = () => {
                         </p>
                       </div>
 
-                      <button
-                        className="flex h-8 w-8 items-center justify-center rounded-lg text-[#94A3B8] transition-all hover:bg-[#080B12] hover:text-[#38BDF8]"
-                        aria-label="عرض"
-                      >
-                        <FaArrowLeft className="text-[12px]" />
-                      </button>
+<div className="flex items-center gap-1.5">
+
+  {/* Edit */}
+  <button
+   onClick={()=>{
+      setSelectFacility(facility)
+      setOpenEditFacility(true)
+    }}
+    type="button"
+    className="
+      group flex h-9 w-9 items-center justify-center
+      rounded-xl
+      border border-transparent
+      text-[#94A3B8]
+      transition-all duration-200
+      hover:border-[#38BDF8]/20
+      hover:bg-[#38BDF8]/10
+      hover:text-[#38BDF8]
+      active:scale-95
+    "
+    aria-label="تعديل"
+    title="تعديل المنشأة"
+  >
+    <FaPenToSquare
+      className="
+        text-[13px]
+        transition-transform duration-200
+        group-hover:scale-110
+      "
+    />
+  </button>
+
+  {/* Delete */}
+  <button
+    type="button"
+    onClick={() => {
+      setSelectFacility(facility);
+      setOpenDeleteFacility(true);
+    }}
+    className="
+      group flex h-9 w-9 items-center justify-center
+      rounded-xl
+      border border-transparent
+      text-[#94A3B8]
+      transition-all duration-200
+      hover:border-red-500/20
+      hover:bg-red-500/10
+      hover:text-red-400
+      active:scale-95
+    "
+    aria-label="حذف"
+    title="حذف المنشأة"
+  >
+    <FaTrash
+      className="
+        text-[13px]
+        transition-transform duration-200
+        group-hover:scale-110
+      "
+    />
+  </button>
+
+
+
+</div>
+
+
                     </div>
                   </article>
                 );

@@ -1,14 +1,26 @@
 "use client";
 
-import React from "react";
+import React, { useContext, useMemo } from "react";
 import { FaBaby } from "react-icons/fa6";
 
-const Hero = ({
-  available = 4,
-  total = 12,
-  occupied = 7,
-  maintenance = 1,
-}) => {
+import { Hospital } from "../../../../providers/HospitalContext.jsx";
+
+const Hero = () => {
+  const { units } = useContext(Hospital);
+
+  const nicuUnits = useMemo(() => {
+    return (units?.data || []).filter(
+      (unit) => unit.type === "NICU" && unit.isActive !== false
+    );
+  }, [units]);
+
+  const availableBeds = useMemo(() => {
+    return nicuUnits.reduce(
+      (total, unit) => total + Number(unit.availableBeds || 0),
+      0
+    );
+  }, [nicuUnits]);
+
   return (
     <section className="p-5 mt-4 text-white bg-blue-600 shadow-sm md:mt-7 rounded-2xl sm:p-7">
       <div className="flex flex-col justify-between gap-6 lg:flex-row lg:items-center">
@@ -26,46 +38,41 @@ const Hero = ({
 
             <div className="mt-1.5 flex items-end gap-3">
               <span className="text-5xl font-bold leading-none sm:text-6xl">
-                {available}
+                {availableBeds}
               </span>
 
               <span className="pb-1 text-base text-white/90 sm:text-lg">
-                حضّانة متاحة
+                سرير متاح
               </span>
             </div>
 
             <p className="mt-2 text-[11px] text-white/70 sm:text-sm">
-              يظهر هذا الرقم للأهالي الباحثين عن حضّانة في الوقت الحقيقي
+              إجمالي الأسرة المتاحة في وحدات الحضّانات حاليًا
             </p>
           </div>
         </div>
 
         {/* Statistics */}
-        <div className="grid w-full grid-cols-3 gap-2 sm:gap-3 lg:w-auto">
-          {/* Total */}
-          <div className="px-3 py-3 text-center rounded-xl bg-white/10 sm:px-5">
-            <p className="text-xl font-bold sm:text-2xl">{total}</p>
+        <div className="grid w-full grid-cols-2 gap-2 sm:gap-3 lg:w-auto">
+          {/* Units */}
+          <div className="px-4 py-3 text-center rounded-xl bg-white/10 sm:px-6">
+            <p className="text-xl font-bold sm:text-2xl">
+              {nicuUnits.length}
+            </p>
 
             <p className="mt-0.5 text-[10px] text-white/75 sm:text-[11px]">
-              إجمالي الحضّانات
+              وحدات الحضّانات
             </p>
           </div>
 
-          {/* Occupied */}
-          <div className="px-3 py-3 text-center rounded-xl bg-white/10 sm:px-5">
-            <p className="text-xl font-bold sm:text-2xl">{occupied}</p>
-
-            <p className="mt-0.5 text-[10px] text-white/75 sm:text-[11px]">
-              مشغولة
+          {/* Available Beds */}
+          <div className="px-4 py-3 text-center rounded-xl bg-white/10 sm:px-6">
+            <p className="text-xl font-bold sm:text-2xl">
+              {availableBeds}
             </p>
-          </div>
-
-          {/* Maintenance */}
-          <div className="px-3 py-3 text-center rounded-xl bg-white/10 sm:px-5">
-            <p className="text-xl font-bold sm:text-2xl">{maintenance}</p>
 
             <p className="mt-0.5 text-[10px] text-white/75 sm:text-[11px]">
-              تحت الصيانة
+              أسرة متاحة
             </p>
           </div>
         </div>

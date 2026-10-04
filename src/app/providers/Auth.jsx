@@ -204,7 +204,11 @@ const handleForgetPasswordSubmit = (values) => {
 const handleResetPassword = async ({token,values}) => {
   try {
     setLoading(true);
-    const { data } = await api.post(`/auth/reset-password/${token}`, values);
+    const { data } = await api.post(`/auth/reset-password`,  {
+      token,
+      newPassword: values.newPassword,
+      confirmPassword: values.confirmPassword,
+    });
     return data;
   } catch (error) {
     throw error;

@@ -167,6 +167,40 @@ router.push("/");
 const handleLogoutSubmit = () => {
   handleLogoutMutation.mutate();
 };
+// ================= FORGET PASSWORD ================
+const handleForgetPassword = async (values) => {
+  try {
+    setLoading(true);
+    const { data } = await api.post("/auth/forget-password", values);
+    return data;
+  } catch (error) {
+    throw error;
+  }finally {
+    setLoading(false);
+  }
+}
+const handleForgetPasswordMutation = useMutation({
+  mutationKey: ["forgetPassword"],
+  mutationFn: handleForgetPassword,
+
+  onSuccess:  (data) => {
+    toast.success(
+      data?.message || "تم ارسال كلمة المرور الى بريدك الالكتروني"
+    );
+  },
+
+  onError: (error) => {
+    toast.error(
+      error?.response?.data?.message ||
+        "حدث خطاء اثناء ارسال كلمة المرور"
+    );
+  },
+});
+
+const handleForgetPasswordSubmit = (values) => {
+  handleForgetPasswordMutation.mutate(values);
+};
+ 
   return (
     <authContext.Provider
       value={{
@@ -179,7 +213,7 @@ const handleLogoutSubmit = () => {
        loadding,
         handleUpdateProfileSubmit,
         openUpdateProfile,
-        setOpenUpdateProfile,handleLogoutSubmit
+        setOpenUpdateProfile,handleLogoutSubmit,handleForgetPasswordSubmit
       }}
     >
       {children}

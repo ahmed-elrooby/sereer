@@ -127,7 +127,7 @@ const Login = () => {
                       </label>
 
                       <Link
-                        href="/forgot-password"
+                        href="/ForgetPassword"
                         className="text-xs text-[#38BDF8] transition-colors hover:text-[#7DD3FC]"
                       >
                         نسيت كلمة المرور؟

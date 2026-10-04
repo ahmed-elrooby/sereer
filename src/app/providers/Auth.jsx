@@ -171,7 +171,7 @@ const handleLogoutSubmit = () => {
 const handleForgetPassword = async (values) => {
   try {
     setLoading(true);
-    const { data } = await api.post("/auth/forget-password", values);
+    const { data } = await api.post("/auth/forgot-password", values);
     return data;
   } catch (error) {
     throw error;

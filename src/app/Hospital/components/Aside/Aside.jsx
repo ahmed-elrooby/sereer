@@ -15,9 +15,9 @@ import {
   FaXmark,
   FaUser,
 } from "react-icons/fa6";
-
+import Image from "next/image.js";
 import { authContext } from "../../../providers/Auth.jsx";
-
+import logo from "../../../../images/logo.png";
 const Aside = ({ sidebarOpen, setSidebarOpen }) => {
   const { profile,handleLogoutSubmit } = useContext(authContext);
 
@@ -58,7 +58,7 @@ const Aside = ({ sidebarOpen, setSidebarOpen }) => {
       label: "الملف الشخصي",
       href: "/Hospital/Profile",
       icon: FaUser,
-      badge: 3,
+    
       show: true,
     },
 
@@ -73,40 +73,47 @@ const Aside = ({ sidebarOpen, setSidebarOpen }) => {
           : "translate-x-full lg:translate-x-0"
       }`}
     >
-      {/* Logo */}
-      <div className="px-5 py-5 border-b border-slate-100">
-        <div className="flex items-center justify-between">
-          <Link
-            href="/Hospital"
-            onClick={() => setSidebarOpen(false)}
-            className="flex items-center gap-3"
-          >
-            <div className="grid text-white bg-blue-600 shadow-sm h-11 w-11 place-items-center rounded-xl">
-              <FaBedPulse size={22} />
-            </div>
+  {/* Logo */}
+<div className="px-5 py-5 border-b border-slate-100">
+  <div className="flex items-center justify-between">
+    <Link
+      href="/Hospital"
+      onClick={() => setSidebarOpen(false)}
+      className="flex items-center gap-3"
+    >
+<div className="flex items-center justify-center w-14 h-14 shrink-0">
+  <Image
+    src={logo}
+    alt="سرير"
+    width={80}
+    height={80}
+    priority
+    className="object-contain w-20 h-20"
+  />
+</div>
 
-            <div>
-              <p className="text-xl font-bold leading-tight">
-                سرير
-              </p>
+      <div>
+        <p className="text-xl font-bold leading-tight">
+          سرير
+        </p>
 
-              <p className="mt-1 text-[11px] text-slate-500">
-                أقرب رعاية ليك
-              </p>
-            </div>
-          </Link>
-
-          {/* Close Button - Mobile */}
-          <button
-            type="button"
-            onClick={() => setSidebarOpen(false)}
-            aria-label="إغلاق القائمة"
-            className="grid transition rounded-lg h-9 w-9 place-items-center text-slate-400 hover:bg-slate-100 hover:text-slate-700 lg:hidden"
-          >
-            <FaXmark size={18} />
-          </button>
-        </div>
+        <p className="mt-1 text-[11px] text-slate-500">
+          أقرب رعاية ليك
+        </p>
       </div>
+    </Link>
+
+    {/* Close Button - Mobile */}
+    <button
+      type="button"
+      onClick={() => setSidebarOpen(false)}
+      aria-label="إغلاق القائمة"
+      className="grid transition rounded-lg h-9 w-9 place-items-center text-slate-400 hover:bg-slate-100 hover:text-slate-700 lg:hidden"
+    >
+      <FaXmark size={18} />
+    </button>
+  </div>
+</div>
 
       {/* Navigation */}
       <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">

@@ -1,8 +1,7 @@
-
 "use client";
 
 import React, { useContext, useState } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import {
@@ -12,17 +11,20 @@ import {
   FaKey,
   FaCheckCircle,
 } from "react-icons/fa";
+
 import { authContext } from "../../providers/Auth.jsx";
 
-
-
 const ResetPassword = () => {
-  const { handleResetPasswordSubmit, loadding } = useContext(authContext);
+  const { handleResetPasswordSubmit, loadding } =
+    useContext(authContext);
 
-  const { token } = useParams();
+  const searchParams = useSearchParams();
+
+  const token = searchParams.get("token");
 
   const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] =
+    useState(false);
 
   const initialValues = {
     password: "",
@@ -33,9 +35,18 @@ const ResetPassword = () => {
     password: Yup.string()
       .required("كلمة المرور مطلوبة")
       .min(8, "كلمة المرور يجب أن تكون 8 أحرف على الأقل")
-      .matches(/[A-Z]/, "يجب أن تحتوي على حرف إنجليزي كبير واحد على الأقل")
-      .matches(/[a-z]/, "يجب أن تحتوي على حرف إنجليزي صغير واحد على الأقل")
-      .matches(/[0-9]/, "يجب أن تحتوي على رقم واحد على الأقل"),
+      .matches(
+        /[A-Z]/,
+        "يجب أن تحتوي على حرف إنجليزي كبير واحد على الأقل"
+      )
+      .matches(
+        /[a-z]/,
+        "يجب أن تحتوي على حرف إنجليزي صغير واحد على الأقل"
+      )
+      .matches(
+        /[0-9]/,
+        "يجب أن تحتوي على رقم واحد على الأقل"
+      ),
 
     confirmPassword: Yup.string()
       .required("تأكيد كلمة المرور مطلوب")
@@ -45,12 +56,10 @@ const ResetPassword = () => {
       ),
   });
 
-
   return (
-    <div
-      className="flex items-center justify-center min-h-screen px-4 py-10 bg-slate-50"
-    >
+    <div className="flex items-center justify-center min-h-screen px-4 py-10 bg-slate-50">
       <div className="w-full max-w-md">
+
         {/* Header */}
         <div className="mb-6 text-center">
           <div className="flex items-center justify-center w-16 h-16 mx-auto mb-4 text-blue-600 bg-blue-100 rounded-2xl">
@@ -68,13 +77,20 @@ const ResetPassword = () => {
 
         {/* Card */}
         <div className="p-6 bg-white border shadow-sm border-slate-100 rounded-2xl sm:p-8">
+
           <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}
-            onSubmit={(values) => handleResetPasswordSubmit({token, values})}
+            onSubmit={(values) => {
+              handleResetPasswordSubmit({
+                token,
+                values,
+              });
+            }}
           >
-            {({ values, isSubmitting }) => (
+            {({ values }) => (
               <Form className="space-y-5">
+
                 {/* Password */}
                 <div>
                   <label
@@ -97,10 +113,16 @@ const ResetPassword = () => {
 
                     <button
                       type="button"
-                      onClick={() => setShowPassword((prev) => !prev)}
+                      onClick={() =>
+                        setShowPassword((prev) => !prev)
+                      }
                       className="absolute -translate-y-1/2 left-4 top-1/2 text-slate-400 hover:text-blue-600"
                     >
-                      {showPassword ? <FaEyeSlash /> : <FaEye />}
+                      {showPassword ? (
+                        <FaEyeSlash />
+                      ) : (
+                        <FaEye />
+                      )}
                     </button>
                   </div>
 
@@ -126,7 +148,11 @@ const ResetPassword = () => {
                     <Field
                       id="confirmPassword"
                       name="confirmPassword"
-                      type={showConfirmPassword ? "text" : "password"}
+                      type={
+                        showConfirmPassword
+                          ? "text"
+                          : "password"
+                      }
                       placeholder="أعد كتابة كلمة المرور"
                       className="w-full py-3 pl-12 text-sm transition bg-white border outline-none pr-11 text-slate-700 rounded-xl border-slate-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-50"
                     />
@@ -134,11 +160,17 @@ const ResetPassword = () => {
                     <button
                       type="button"
                       onClick={() =>
-                        setShowConfirmPassword((prev) => !prev)
+                        setShowConfirmPassword(
+                          (prev) => !prev
+                        )
                       }
                       className="absolute -translate-y-1/2 left-4 top-1/2 text-slate-400 hover:text-blue-600"
                     >
-                      {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+                      {showConfirmPassword ? (
+                        <FaEyeSlash />
+                      ) : (
+                        <FaEye />
+                      )}
                     </button>
                   </div>
 
@@ -156,6 +188,7 @@ const ResetPassword = () => {
                   </p>
 
                   <div className="space-y-2 text-xs text-slate-500">
+
                     <div className="flex items-center gap-2">
                       <FaCheckCircle
                         className={
@@ -199,15 +232,17 @@ const ResetPassword = () => {
                       />
                       <span>رقم واحد على الأقل</span>
                     </div>
+
                   </div>
                 </div>
 
                 {/* Submit */}
                 <button
                   type="submit"
+                  disabled={loadding}
                   className="flex items-center justify-center w-full gap-2 py-3.5 text-sm font-bold text-white transition bg-blue-600 rounded-xl hover:bg-blue-700 disabled:opacity-60 disabled:cursor-not-allowed"
                 >
-                  { loadding ? (
+                  {loadding ? (
                     <>
                       <span className="w-4 h-4 border-2 border-white rounded-full border-t-transparent animate-spin" />
                       جاري تحديث كلمة المرور...
@@ -219,6 +254,7 @@ const ResetPassword = () => {
                     </>
                   )}
                 </button>
+
               </Form>
             )}
           </Formik>
@@ -227,10 +263,10 @@ const ResetPassword = () => {
         <p className="mt-6 text-xs text-center text-slate-400">
           تأكد من اختيار كلمة مرور قوية وعدم مشاركتها مع أي شخص.
         </p>
+
       </div>
     </div>
   );
 };
 
 export default ResetPassword;
-

@@ -16,26 +16,26 @@ const Header = () => {
           aria-label="عناية وحضّانة - الصفحة الرئيسية"
           className="flex items-center gap-3 group"
         >
-          <div className="flex items-center justify-center overflow-hidden transition-all duration-200 bg-white border h-11 w-11 shrink-0 rounded-xl border-slate-100 group-hover:border-blue-100 group-hover:shadow-sm">
+          <div className="flex items-center justify-center overflow-hidden transition-all duration-200  h-[120px] w-[120px] shrink-0 rounded-xl group-hover:shadow-sm">
             <Image
               src={logo}
               alt="عناية وحضّانة"
-              width={44}
-              height={44}
+              width={64}
+              height={64}
               priority
               className="object-contain w-full h-full"
             />
           </div>
 
-          <div className="flex flex-col leading-none">
-            <span className="text-[19px] font-bold tracking-tight text-[#131B2E] sm:text-[20px]">
-              عناية وحضّانة
+          {/* <div className="flex flex-col leading-none">
+            <span className="text-[19px] font-bold tracking-tight text-blue-900 sm:text-[20px]">
+            سرير
             </span>
 
-            <span className="mt-1.5 text-[10px] font-medium text-slate-400 sm:text-[11px]">
-              منظومة الرعاية الطبية الفورية
-            </span>
-          </div>
+<span className="mt-1.5 text-lg font-semibold text-blue-900 sm:text-[11px] font-[Poppins]">
+  sreer
+</span>
+          </div> */}
         </Link>
 
         {/* Desktop */}

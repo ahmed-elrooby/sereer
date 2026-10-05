@@ -54,10 +54,7 @@ const ResultsClient = () => {
     ? "الحضّانات المتاحة"
     : "العناية المركزة المتاحة";
 
-  const pageDescription = isNICU
-    ? "أقرب الحضّانات المتاحة بناءً على موقعك الحالي"
-    : "أقرب أماكن العناية المركزة المتاحة بناءً على موقعك الحالي";
-
+ 
   const unitLabel = isNICU
     ? "حضّانة أطفال"
     : "عناية مركزة";
@@ -124,36 +121,17 @@ const ResultsClient = () => {
             <div>
               <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-blue-100 bg-blue-50 px-3 py-1.5 text-xs font-semibold text-blue-700">
                 <FaLocationDot />
-                بناءً على موقعك الحالي
+               أقرب أماكن العناية المركزة المتاحة بناءً على موقعك الحالي
               </div>
 
               <h1 className="text-2xl font-bold tracking-tight text-slate-900 md:text-3xl">
                 {pageTitle}
               </h1>
 
-              <p className="max-w-xl mt-2 text-sm leading-7 text-slate-500 md:text-base">
-                {pageDescription}
-              </p>
+            
             </div>
 
-            {/* Count */}
-            {!isLoading && !isError && hospitals.length > 0 && (
-              <div className="flex items-center gap-3 px-4 py-3 bg-white border shadow-sm w-fit rounded-2xl border-slate-200">
-                <div className="flex items-center justify-center w-10 h-10 text-blue-600 rounded-xl bg-blue-50">
-                  <FaHospital />
-                </div>
-
-                <div>
-                  <p className="text-xs text-slate-400">
-                    الأماكن المتاحة
-                  </p>
-
-                  <p className="text-lg font-bold text-slate-900">
-                    {hospitals.length}
-                  </p>
-                </div>
-              </div>
-            )}
+          
 
           </div>
         </section>
@@ -277,7 +255,7 @@ const ResultsClient = () => {
                 return (
                   <article
                     key={hospital._id}
-                    className="group overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-blue-200 hover:shadow-md"
+                    className="group overflow-hidden rounded-3xl border-4 border-blue-600 bg-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-blue-200 hover:shadow-md"
                   >
                     <div className="p-5 md:p-6">
 
@@ -285,8 +263,8 @@ const ResultsClient = () => {
                       <div className="flex items-start gap-4">
 
                         {/* Icon */}
-                        <div className="flex items-center justify-center text-blue-600 transition-colors h-14 w-14 shrink-0 rounded-2xl bg-blue-50 group-hover:bg-blue-600 group-hover:text-white">
-                          <FaHospital size={22} />
+                        <div className="flex items-center justify-center w-10 h-10 text-blue-600 transition-colors md:h-14 md:w-14 shrink-0 rounded-2xl bg-blue-50 group-hover:bg-blue-600 group-hover:text-white">
+                          <FaHospital className="text-[17px] md:text-lg" />
                         </div>
 
                         {/* Info */}
@@ -321,14 +299,14 @@ const ResultsClient = () => {
                       </div>
 
                       {/* Details */}
-                      <div className="grid gap-3 mt-5 sm:grid-cols-2">
+                      <div className="grid gap-3 mt-3 sm:grid-cols-2">
 
                         {/* Available beds */}
-                        <div className="flex items-center justify-between p-4 border rounded-2xl border-emerald-100 bg-emerald-50/70">
+                        <div className="flex items-center justify-between p-2 border-2 border-emerald-100 rounded-2xl bg-emerald-50/70">
 
                           <div className="flex items-center gap-3">
 
-                            <div className="flex items-center justify-center bg-white shadow-sm h-11 w-11 rounded-xl text-emerald-600">
+                            <div className="flex items-center justify-center w-8 h-8 bg-white shadow-sm md:h-11 md:w-11 rounded-xl text-emerald-600">
                               <FaBedPulse size={19} />
                             </div>
 
@@ -357,7 +335,7 @@ const ResultsClient = () => {
                         </div>
 
                         {/* Status */}
-                        <div className="flex items-center justify-between p-4 border rounded-2xl border-slate-100 bg-slate-50">
+                        {/* <div className="flex items-center justify-between p-4 border rounded-2xl border-slate-100 bg-slate-50">
 
                           <div className="flex items-center gap-3">
 
@@ -379,12 +357,12 @@ const ResultsClient = () => {
 
                           <span className="h-2.5 w-2.5 rounded-full bg-emerald-500 shadow-sm shadow-emerald-200" />
 
-                        </div>
+                        </div> */}
 
                       </div>
 
                       {/* Actions */}
-                      <div className="flex flex-col gap-3 mt-5 sm:flex-row">
+                      <div className="flex flex-col gap-3 mt-3 sm:flex-row">
 
                         <button
                           type="button"

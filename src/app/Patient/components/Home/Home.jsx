@@ -16,7 +16,7 @@ const Home = () => {
   };
 
   return (
-    <main className="px-4 py-6 md:min-h-screen bg-slate-50 md:px-6">
+    <main className="px-4 py-6 min-h-[70vh] md:min-h-screen bg-slate-50 md:px-6">
       <div className="flex flex-col justify-center max-w-5xl mx-auto">
 
         {/* Header */}

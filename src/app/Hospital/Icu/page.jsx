@@ -1,10 +1,20 @@
-import React from 'react'
-import Icu from '../components/Icu/Icu.jsx'
+import React from "react";
+import Icu from "../components/Icu/Icu.jsx";
 
-const page = () => {
-  return <>
-  <Icu/>
-  </>
-}
+export const metadata = {
+  title: "العناية المركزة | لوحة المستشفى | سرير",
+  description:
+    "إدارة ومتابعة وحدات العناية المركزة وتحديث عدد الأسرة المتاحة من خلال لوحة تحكم المستشفى في منصة سرير.",
 
-export default page
+  robots: {
+    index: false,
+    follow: false,
+    nocache: true,
+  },
+};
+
+const Page = () => {
+  return <Icu />;
+};
+
+export default Page;

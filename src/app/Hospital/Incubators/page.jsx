@@ -1,11 +1,20 @@
-import React from 'react'
-import Incubators from '../components/Incubators/Incubators.jsx'
+import React from "react";
+import Incubators from "../components/Incubators/Incubators.jsx";
 
-const page = () => {
-  return <>
-  
-  <Incubators/>
-  </>
-}
+export const metadata = {
+  title: "الحضّانات | لوحة المستشفى | سرير",
+  description:
+    "إدارة ومتابعة وحدات الحضّانات وتحديث عدد الأسرة المتاحة من خلال لوحة تحكم المستشفى في منصة سرير.",
 
-export default page
+  robots: {
+    index: false,
+    follow: false,
+    nocache: true,
+  },
+};
+
+const Page = () => {
+  return <Incubators />;
+};
+
+export default Page;

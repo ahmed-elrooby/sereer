@@ -6,7 +6,6 @@ import { Hospital } from "../../../../providers/HospitalContext.jsx";
 
 const Hero = () => {
   const { units } = useContext(Hospital);
-console.log(units)
   // وحدات العناية المركزة فقط
   const icuUnits =
     units?.data?.filter((unit) => unit.type === "ICU" && unit.isActive) || [];

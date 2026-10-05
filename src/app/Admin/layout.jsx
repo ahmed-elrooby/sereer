@@ -1,9 +1,11 @@
 "use client";
 
 import React, { useState } from "react";
+
 import Aside from "./components/Aside/Aside.jsx";
 import Header from "./components/Header/Header.jsx";
 import Footer from "./components/Footer/Footer.jsx";
+
 import AdminContext from "../providers/AdminContext.jsx";
 
 const Layout = ({ children }) => {
@@ -18,28 +20,38 @@ const Layout = ({ children }) => {
   };
 
   return (
-    <div
-      className="min-h-screen bg-[#080B12] text-white"
-    
-    >
+    <div className="min-h-screen bg-[#080B12] text-white">
       <AdminContext>
         <div className="flex min-h-screen">
-        <Aside
-          sidebarOpen={sidebarOpen}
-          closeSidebar={closeSidebar}
-        />
 
-        <div className="flex flex-col flex-1 min-w-0">
-          <Header toggleSidebar={toggleSidebar} />
+          {/* Sidebar */}
+          <Aside
+            sidebarOpen={sidebarOpen}
+            closeSidebar={closeSidebar}
+          />
 
-          <main className="flex-1 px-4 md:px-12">
-            {children}
-            <Footer/>
-          </main>
+          {/* Main Content */}
+          <div className="flex min-w-0 flex-1 flex-col">
+
+            {/* Header */}
+            <Header toggleSidebar={toggleSidebar} />
+
+            {/* Pages */}
+            <main className="flex flex-1 flex-col px-4 md:px-8 lg:px-12">
+              
+              {/* Page Content */}
+              <div className="flex-1">
+                {children}
+              </div>
+
+              {/* Footer */}
+              <Footer />
+
+            </main>
+
+          </div>
         </div>
-      </div> 
       </AdminContext>
-     
     </div>
   );
 };

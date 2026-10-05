@@ -5,7 +5,6 @@ import { authContext } from "../../../../providers/Auth.jsx";
 
 const Intro = () => {
   const {profile}=useContext(authContext)
-  console.log(profile)
   return (
     <div className="relative mt-8 md:mt-14">
       {/* Section Meta */}

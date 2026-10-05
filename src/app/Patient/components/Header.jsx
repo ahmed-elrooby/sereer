@@ -1,52 +1,68 @@
+"use client";
+
+import Image from "next/image";
 import Link from "next/link";
-import { FaUserCircle } from "react-icons/fa";
-import { FaBedPulse } from "react-icons/fa6";
+
+import logo from "../../../images/logo.png";
 
 const Header = () => {
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-slate-100 bg-white/95 backdrop-blur-sm">
-      
-      {/* Background Circle */}
-      <div className="relative z-10  flex h-[72px]  items-center justify-between px-4 md:px-36">
+    <header className="sticky top-0 z-50 w-full border-b border-slate-100 bg-white/95 backdrop-blur-md">
+      <div className="mx-auto flex h-[72px] w-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
 
+        {/* Logo */}
         <Link
           href="/Patient"
-          aria-label="سرير - الصفحة الرئيسية"
+          aria-label="عناية وحضّانة - الصفحة الرئيسية"
           className="flex items-center gap-3 group"
         >
-         
-  <div className="flex items-center justify-center text-blue-600 transition-all duration-200 h-11 w-11 rounded-xl bg-blue-50 group-hover:bg-blue-100">
-            <FaBedPulse size={23} aria-hidden="true" />
+          <div className="flex items-center justify-center overflow-hidden transition-all duration-200 bg-white border h-11 w-11 shrink-0 rounded-xl border-slate-100 group-hover:border-blue-100 group-hover:shadow-sm">
+            <Image
+              src={logo}
+              alt="عناية وحضّانة"
+              width={44}
+              height={44}
+              priority
+              className="object-contain w-full h-full"
+            />
           </div>
-          <div className="flex flex-col items-start leading-none">
-            <span className="text-[20px] font-bold tracking-tight text-[#131B2E]">
-             عناية وحضّانة
+
+          <div className="flex flex-col leading-none">
+            <span className="text-[19px] font-bold tracking-tight text-[#131B2E] sm:text-[20px]">
+              عناية وحضّانة
             </span>
 
-            <span className="mt-1 text-[11px] font-medium text-slate-500">
-             منظومة المتابعة السريرية الفورية
+            <span className="mt-1.5 text-[10px] font-medium text-slate-400 sm:text-[11px]">
+              منظومة الرعاية الطبية الفورية
             </span>
           </div>
-         
         </Link>
-       
-<div className="flex items-center gap-4">
-    <span className="text-xs">متابعة الحاضنات</span>
-    <span className="text-xs">تحديثات الفريق الطبي</span>
-</div>
-        {/* Brand */}
-       
- <button
-          type="button"
-          aria-label="الملف الشخصي"
-          className="flex items-center justify-center w-10 h-10 transition-all duration-200 bg-white border rounded-full group border-slate-200 text-slate-500 hover:border-blue-200 hover:bg-blue-50 hover:text-blue-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-        >
-          <FaUserCircle
-            size={24}
-            aria-hidden="true"
-            className="transition-transform duration-200 group-hover:scale-105"
-          />
-        </button>
+
+        {/* Desktop */}
+        <nav className="items-center hidden gap-7 md:flex">
+          <Link
+            href="/Patient"
+            className="text-sm font-medium transition-colors text-slate-600 hover:text-blue-600"
+          >
+            الرئيسية
+          </Link>
+
+          <span className="w-px h-5 bg-slate-200" />
+
+          <div className="flex items-center gap-2 text-sm font-medium text-slate-500">
+            <span className="w-2 h-2 rounded-full bg-emerald-500" />
+            أقرب رعاية ليك
+          </div>
+        </nav>
+
+        {/* Mobile */}
+        <div className="flex items-center md:hidden">
+          <div className="flex items-center gap-2 rounded-full bg-blue-50 px-3 py-2 text-[11px] font-semibold text-blue-600">
+            <span className="h-1.5 w-1.5 rounded-full bg-blue-600" />
+            أقرب رعاية ليك
+          </div>
+        </div>
+
       </div>
     </header>
   );

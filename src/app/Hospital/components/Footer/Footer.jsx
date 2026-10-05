@@ -1,46 +1,45 @@
 import React from "react";
 import Image from "next/image";
 
-import maintech from "../../../../images/mainTech.jpeg";
+import mainTech from "../../../../images/mainTech.jpeg";
 
 const Footer = () => {
   return (
-    <footer className="pt-5 mt-8 border-t border-slate-200/80">
-      <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
+    <footer className="mt-auto border-t border-slate-200 bg-white">
+      <div className="flex flex-col items-center justify-between gap-4 px-4 py-5 sm:flex-row">
 
         {/* Copyright */}
         <div className="text-center sm:text-right">
-          <p className="text-[11px] font-semibold tracking-wide text-slate-500">
+          <p className="text-xs font-semibold text-slate-600">
             جميع الحقوق محفوظة © 2026 لشركة Main Tech
           </p>
 
-          <p className="mt-1 text-[10px] text-slate-400">
-            SEERER — منصة إدارة ومتابعة الرعاية الطبية
+          <p className="mt-1 text-[11px] text-slate-400">
+            سرير — أقرب رعاية ليك
           </p>
         </div>
 
         {/* Main Tech */}
         <div className="flex items-center gap-3">
-
-          <span className="text-[10px] font-medium text-slate-400">
-            Developed by
+          <span className="hidden text-[11px] text-slate-400 sm:block">
+            Powered by
           </span>
 
           <div className="flex items-center gap-2.5">
-
             {/* Logo */}
-            <div className="flex items-center justify-center overflow-hidden bg-white border rounded-full shadow-sm h-9 w-9 border-slate-200">
+            <div className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-full border border-slate-200 bg-white shadow-sm">
               <Image
-                src={maintech}
+                src={mainTech}
                 alt="Main Tech"
                 width={36}
                 height={36}
-                className="object-cover w-full h-full"
+                className="h-full w-full object-cover"
               />
             </div>
 
+            {/* Name */}
             <div className="leading-none">
-              <p className="text-xs font-bold tracking-wide text-slate-700">
+              <p className="text-xs font-bold text-slate-700">
                 Main Tech
               </p>
 
@@ -48,7 +47,6 @@ const Footer = () => {
                 Technology Solutions
               </p>
             </div>
-
           </div>
         </div>
 

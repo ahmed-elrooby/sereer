@@ -16,11 +16,7 @@ const PatientContext = ({ children }) => {
   });
 
   const setPatientLocation = (lat, lng) => {
-    console.log("SETTING LOCATION:", {
-      lat,
-      lng,
-    });
-
+ 
     setLocation({
       lat,
       lng,
@@ -32,17 +28,12 @@ const PatientContext = ({ children }) => {
     lat,
     lng
   ) => {
-    console.log("GET NEARBY PARAMS:", {
-      type,
-      lat,
-      lng,
-    });
+   
 
     const { data } = await api.get(
       `/patient/nearby?type=${type}&lat=${lat}&lng=${lng}`
     );
 
-    console.log("API DATA:", data);
 
     return data;
   };

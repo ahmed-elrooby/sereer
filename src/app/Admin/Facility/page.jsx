@@ -1,11 +1,19 @@
-import React from 'react'
-import Facility from '../components/Facility/Facility.jsx'
+import Facility from "../components/Facility/Facility.jsx";
 
-const page = () => {
-  return <>
-  <Facility/>
-  
-  </>
-}
+export const metadata = {
+  title: "لوحة تحكم الإدارة | سرير",
+  description:
+    "لوحة تحكم إدارة منصة سرير لإدارة المستشفيات والوحدات الطبية ومتابعة توافر الأسرة.",
 
-export default page
+  robots: {
+    index: false,
+    follow: false,
+    nocache: true,
+  },
+};
+
+const Page = () => {
+  return <Facility />;
+};
+
+export default Page;

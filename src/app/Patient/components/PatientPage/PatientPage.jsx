@@ -24,8 +24,7 @@ const PatientPage = () => {
       (position) => {
         const { latitude, longitude } = position.coords;
 
-        console.log("Latitude:", latitude);
-        console.log("Longitude:", longitude);
+        
 
         // تخزين الموقع داخل PatientContext
         setPatientLocation(latitude, longitude);

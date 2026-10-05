@@ -26,7 +26,6 @@ const EditProfile = () => {
         setOpenUpdateProfile,
     handleUpdateProfileSubmit,
   } = useContext(authContext);
-console.log(profile)
   const user = profile?.data?.user;
 
   const initialValues = {

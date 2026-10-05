@@ -1,10 +1,20 @@
-import React from 'react'
-import Login from './components/Login/Login.jsx'
+import React from "react";
+import Login from "./components/Login/Login.jsx";
 
-const page = () => {
-  return <>
-  <Login/>
-  </>
-}
+export const metadata = {
+  title: "تسجيل الدخول | سرير",
+  description:
+    "تسجيل الدخول إلى حسابك للوصول إلى منصة سرير وإدارة خدمات الرعاية الطبية.",
 
-export default page
+  robots: {
+    index: false,
+    follow: false,
+    nocache: true,
+  },
+};
+
+const Page = () => {
+  return <Login />;
+};
+
+export default Page;

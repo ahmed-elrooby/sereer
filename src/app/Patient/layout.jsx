@@ -1,29 +1,41 @@
 import PatientContext from "../providers/PatientContext.jsx";
-import Header from "./components/Header.jsx";
 
+import Footer from "./components/Footer/Footer.jsx";
+import Header from "./components/Header.jsx";
 
 export const metadata = {
   metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
+    process.env.NEXT_PUBLIC_SITE_URL || "https://sereer.vercel.app"
   ),
 
   title: {
-    default: "أقرب حضّانة وعناية مركزة | رعاية",
-    template: "%s | رعاية",
+    default: "سرير | أقرب رعاية ليك",
+    template: "%s | سرير",
   },
 
   description:
-    "ابحث عن أقرب حضّانة أطفال أو عناية مركزة متاحة بالقرب منك. اعرف المسافة، وتواصل مع المستشفى، واحصل على الاتجاهات بسهولة.",
+    "سرير يساعدك في العثور على أقرب حضّانة أطفال أو وحدة عناية مركزة متاحة بالقرب منك، مع معرفة الأسرة المتاحة والتواصل مع المستشفى والحصول على الاتجاهات بسهولة.",
 
-  applicationName: "رعاية",
+  applicationName: "سرير",
+
+  keywords: [
+    "سرير",
+    "حضّانة أطفال",
+    "حضانات أطفال",
+    "عناية مركزة",
+    "سرير حضانة",
+    "سرير عناية مركزة",
+    "مستشفيات",
+    "الرعاية الطبية",
+  ],
 
   openGraph: {
     type: "website",
     locale: "ar_EG",
-    siteName: "رعاية",
-    title: "رعاية | أقرب حضّانة وعناية مركزة",
+    siteName: "سرير",
+    title: "سرير | أقرب رعاية ليك",
     description:
-      "اعرف أقرب حضّانات الأطفال وأماكن العناية المركزة بالقرب منك.",
+      "اعرف أقرب حضّانات الأطفال ووحدات العناية المركزة المتاحة بالقرب منك.",
   },
 
   robots: {
@@ -34,13 +46,16 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html >
-      <body >
+    <html lang="ar" dir="rtl">
+      <body>
         <PatientContext>
-           <Header/>
-        {children}
+          <Header />
+
+          {children}
+
+          <Footer />
         </PatientContext>
-       </body>
+      </body>
     </html>
   );
 }

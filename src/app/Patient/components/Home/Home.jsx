@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
 import { useRouter } from "next/navigation";
+
 import {
   FaBedPulse,
   FaHeartPulse,
@@ -10,16 +10,13 @@ import {
 
 const Home = () => {
   const router = useRouter();
-  const [selectedType, setSelectedType] = useState(null);
 
-  const handleContinue = () => {
-    if (!selectedType) return;
-
-    router.push(`/Patient/Results/${selectedType}`);
+  const handleNavigate = (type) => {
+    router.push(`/Patient/Results/${type}`);
   };
 
   return (
-    <main className="min-h-[calc(100vh-72px)]  px-4 py-8 md:px-6 md:py-12">
+    <main className="min-h-[calc(100vh-72px)] bg-slate-50 px-4 py-8 md:px-6 md:py-12">
       <div className="mx-auto flex min-h-[calc(100vh-136px)] max-w-5xl flex-col justify-center">
 
         {/* Header */}
@@ -44,43 +41,29 @@ const Home = () => {
         {/* Cards */}
         <div className="grid gap-5 mt-10 md:grid-cols-2">
 
-          {/* Incubator */}
+          {/* =========================
+              NICU
+          ========================== */}
           <button
             type="button"
-            onClick={() => setSelectedType("Incubator")}
-            className={`group relative overflow-hidden rounded-3xl border bg-white p-6 text-right transition-all duration-200 md:p-7 ${
-              selectedType === "incubator"
-                ? "border-blue-500 ring-2 ring-blue-100 shadow-lg"
-                : "border-slate-200 shadow-sm hover:-translate-y-1 hover:border-blue-200 hover:shadow-md"
-            }`}
+            onClick={() => handleNavigate("NICU")}
+            className="group relative overflow-hidden rounded-3xl border border-slate-200 bg-white p-6 text-right shadow-sm transition-all duration-200 hover:-translate-y-1 hover:border-blue-300 hover:shadow-lg active:scale-[0.99] md:p-7"
           >
-            {selectedType === "Incubator" && (
-              <div className="absolute flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-blue-600 rounded-full left-5 top-5">
-                ✓
-              </div>
-            )}
-
+            {/* Top */}
             <div className="flex items-center justify-between">
-              <div
-                className={`flex h-16 w-16 items-center justify-center rounded-2xl transition ${
-                  selectedType === "incubator"
-                    ? "bg-blue-600 text-white"
-                    : "bg-blue-50 text-blue-600 group-hover:bg-blue-100"
-                }`}
-              >
+
+              <div className="flex items-center justify-center w-16 h-16 text-blue-600 transition-all duration-200 rounded-2xl bg-blue-50 group-hover:bg-blue-600 group-hover:text-white">
                 <FaBedPulse size={30} />
               </div>
 
               <FaArrowLeft
-                className={`text-xl transition-all ${
-                  selectedType === "Incubator"
-                    ? "-translate-x-1 text-blue-600"
-                    : "text-slate-300 group-hover:-translate-x-1 group-hover:text-blue-500"
-                }`}
+                className="text-xl transition-all duration-200 text-slate-300 group-hover:-translate-x-1 group-hover:text-blue-600"
               />
             </div>
 
+            {/* Content */}
             <div className="mt-7">
+
               <h2 className="text-xl font-bold text-slate-900">
                 حضّانة أطفال
               </h2>
@@ -89,58 +72,38 @@ const Home = () => {
                 ابحث عن حضّانات متاحة لحديثي الولادة والأطفال
                 الذين يحتاجون إلى رعاية خاصة.
               </p>
+
             </div>
 
-            <div
-              className={`mt-6 rounded-xl px-4 py-3 text-sm font-medium ${
-                selectedType === "incubator"
-                  ? "bg-blue-50 text-blue-700"
-                  : "bg-slate-50 text-slate-500"
-              }`}
-            >
-              {selectedType === "incubator"
-                ? "✓ تم اختيار حضّانة أطفال"
-                : "اضغط لاختيار حضّانة أطفال"}
+            {/* Action */}
+            <div className="px-4 py-3 mt-6 text-sm font-medium transition-colors rounded-xl bg-slate-50 text-slate-500 group-hover:bg-blue-50 group-hover:text-blue-700">
+              عرض الحضّانات المتاحة
             </div>
           </button>
 
-          {/* ICU */}
+          {/* =========================
+              ICU
+          ========================== */}
           <button
             type="button"
-            onClick={() => setSelectedType("Icu")}
-            className={`group relative overflow-hidden rounded-3xl border bg-white p-6 text-right transition-all duration-200 md:p-7 ${
-              selectedType === "Icu"
-                ? "border-emerald-500 ring-2 ring-emerald-100 shadow-lg"
-                : "border-slate-200 shadow-sm hover:-translate-y-1 hover:border-emerald-200 hover:shadow-md"
-            }`}
+            onClick={() => handleNavigate("ICU")}
+            className="group relative overflow-hidden rounded-3xl border border-slate-200 bg-white p-6 text-right shadow-sm transition-all duration-200 hover:-translate-y-1 hover:border-emerald-300 hover:shadow-lg active:scale-[0.99] md:p-7"
           >
-            {selectedType === "Icu" && (
-              <div className="absolute flex items-center justify-center w-6 h-6 text-xs font-bold text-white rounded-full left-5 top-5 bg-emerald-600">
-                ✓
-              </div>
-            )}
-
+            {/* Top */}
             <div className="flex items-center justify-between">
-              <div
-                className={`flex h-16 w-16 items-center justify-center rounded-2xl transition ${
-                  selectedType === "Icu"
-                    ? "bg-emerald-600 text-white"
-                    : "bg-emerald-50 text-emerald-600 group-hover:bg-emerald-100"
-                }`}
-              >
+
+              <div className="flex items-center justify-center w-16 h-16 transition-all duration-200 rounded-2xl bg-emerald-50 text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white">
                 <FaHeartPulse size={30} />
               </div>
 
               <FaArrowLeft
-                className={`text-xl transition-all ${
-                  selectedType === "Icu"
-                    ? "-translate-x-1 text-emerald-600"
-                    : "text-slate-300 group-hover:-translate-x-1 group-hover:text-emerald-500"
-                }`}
+                className="text-xl transition-all duration-200 text-slate-300 group-hover:-translate-x-1 group-hover:text-emerald-600"
               />
             </div>
 
+            {/* Content */}
             <div className="mt-7">
+
               <h2 className="text-xl font-bold text-slate-900">
                 عناية مركزة
               </h2>
@@ -149,38 +112,17 @@ const Home = () => {
                 ابحث عن أماكن عناية مركزة متاحة للحالات التي
                 تحتاج إلى رعاية ومتابعة مكثفة.
               </p>
+
             </div>
 
-            <div
-              className={`mt-6 rounded-xl px-4 py-3 text-sm font-medium ${
-                selectedType === "Icu"
-                  ? "bg-emerald-50 text-emerald-700"
-                  : "bg-slate-50 text-slate-500"
-              }`}
-            >
-              {selectedType === "Icu"
-                ? "✓ تم اختيار عناية مركزة"
-                : "اضغط لاختيار عناية مركزة"}
+            {/* Action */}
+            <div className="px-4 py-3 mt-6 text-sm font-medium transition-colors rounded-xl bg-slate-50 text-slate-500 group-hover:bg-emerald-50 group-hover:text-emerald-700">
+              عرض أماكن العناية المتاحة
             </div>
           </button>
+
         </div>
 
-        {/* Continue */}
-        <div className="w-full max-w-md mx-auto mt-8">
-          <button
-            type="button"
-            onClick={handleContinue}
-            disabled={!selectedType}
-            className="flex items-center justify-center w-full gap-3 px-6 py-4 text-base font-bold text-white transition-all bg-blue-600 shadow-sm rounded-2xl hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-slate-200 disabled:text-slate-400 disabled:shadow-none"
-          >
-            البحث عن الأماكن المتاحة
-            <FaArrowLeft />
-          </button>
-
-          <p className="mt-3 text-xs text-center text-slate-400">
-            هنستخدم موقعك الحالي للبحث عن الأماكن الأقرب ليك
-          </p>
-        </div>
       </div>
     </main>
   );

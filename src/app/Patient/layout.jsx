@@ -1,3 +1,4 @@
+import PatientContext from "../providers/PatientContext.jsx";
 import Header from "./components/Header.jsx";
 
 
@@ -35,8 +36,11 @@ export default function RootLayout({ children }) {
   return (
     <html >
       <body >
-        <Header/>
-        {children}</body>
+        <PatientContext>
+           <Header/>
+        {children}
+        </PatientContext>
+       </body>
     </html>
   );
 }

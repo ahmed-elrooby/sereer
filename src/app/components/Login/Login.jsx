@@ -62,7 +62,7 @@ const Login = () => {
           {/* Glow */}
           <div className="pointer-events-none absolute -right-32 top-20 h-96 w-96 rounded-full bg-[#38BDF8]/10 blur-3xl" />
 
-          <div className="pointer-events-none absolute -left-32 bottom-10 h-96 w-96 rounded-full bg-[#2563EB]/10 blur-3xl" />
+          <div className="pointer-events-none absolute -left-32 bottom-10 h-96 w-96 rounded-full bg-[#38BDF8]/10 blur-3xl" />
 
           <div className="relative z-10 flex flex-col justify-between w-full p-10 xl:p-16">
 

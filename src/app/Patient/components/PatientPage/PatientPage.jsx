@@ -1,13 +1,15 @@
 "use client";
 
-import { useState } from "react";
-import { FaLocationDot } from "react-icons/fa6";
+import { useContext, useState } from "react";
 import LocationPermissionModal from "../LocationPermissionModal/LocationPermissionModal.jsx";
+import { Patient } from "../../../providers/PatientContext.jsx";
 
 const PatientPage = () => {
   const [showLocationModal, setShowLocationModal] = useState(true);
   const [isLoadingLocation, setIsLoadingLocation] = useState(false);
   const [locationError, setLocationError] = useState("");
+
+  const { setPatientLocation } = useContext(Patient);
 
   const handleAllowLocation = () => {
     if (!navigator.geolocation) {
@@ -22,14 +24,17 @@ const PatientPage = () => {
       (position) => {
         const { latitude, longitude } = position.coords;
 
-        // هنا بقى عندنا الإحداثيات
         console.log("Latitude:", latitude);
         console.log("Longitude:", longitude);
 
-        // بعد نجاح الحصول على الإحداثيات فقط
+        // تخزين الموقع داخل PatientContext
+        setPatientLocation(latitude, longitude);
+
+        // بعد نجاح الحصول على الموقع
         setIsLoadingLocation(false);
         setShowLocationModal(false);
       },
+
       (error) => {
         setIsLoadingLocation(false);
 
@@ -37,15 +42,23 @@ const PatientPage = () => {
           setLocationError(
             "لازم تسمح بالوصول لموقعك عشان نقدر نعرضلك الأماكن الأقرب ليك."
           );
-        } else {
+        } else if (error.code === error.POSITION_UNAVAILABLE) {
           setLocationError(
             "مش قادرين نحدد موقعك حاليًا. حاول مرة تانية."
           );
+        } else if (error.code === error.TIMEOUT) {
+          setLocationError(
+            "تحديد الموقع استغرق وقت طويل. حاول مرة تانية."
+          );
+        } else {
+          setLocationError(
+            "حصل خطأ أثناء تحديد موقعك. حاول مرة تانية."
+          );
         }
 
-        // مهم جدًا:
-        // لا نقفل الـ Modal
+        // الـ Modal يفضل مفتوح
       },
+
       {
         enableHighAccuracy: true,
         timeout: 10000,

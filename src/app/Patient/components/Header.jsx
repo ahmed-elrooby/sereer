@@ -16,7 +16,7 @@ const Header = () => {
           aria-label="عناية وحضّانة - الصفحة الرئيسية"
           className="flex items-center gap-3 group"
         >
-          <div className="flex items-center justify-center overflow-hidden transition-all duration-200  h-[120px] w-[120px] shrink-0 rounded-xl group-hover:shadow-sm">
+          <div className="flex items-center justify-center overflow-hidden transition-all duration-200  h-[120px] w-[120px] shrink-0 ">
             <Image
               src={logo}
               alt="عناية وحضّانة"

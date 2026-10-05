@@ -54,7 +54,7 @@ const ResultsClient = () => {
     ? "الحضّانات المتاحة"
     : "العناية المركزة المتاحة";
 
- 
+ const pageDescription = isNICU?"           أقرب حضانة اطفال متاحه بناءً على موقعك الحالي":"           أقرب عنايه مركزه متاحة بناءً على موقعك الحالي"
   const unitLabel = isNICU
     ? "حضّانة أطفال"
     : "عناية مركزة";
@@ -73,41 +73,10 @@ const ResultsClient = () => {
 
   return (
     <main
-      dir="rtl"
+  
       className="min-h-screen bg-slate-50"
     >
-      {/* =========================
-          Header
-      ========================== */}
-      <header className="sticky top-0 z-30 border-b border-slate-200 bg-white/95 backdrop-blur">
-        <div className="mx-auto flex h-[72px] max-w-6xl items-center justify-between px-4 md:px-6">
-
-          <button
-            type="button"
-            onClick={() => router.back()}
-            className="flex items-center gap-2 px-3 py-2 text-sm font-medium transition rounded-xl text-slate-500 hover:bg-slate-100 hover:text-slate-900"
-          >
-            <FaArrowRight className="text-sm" />
-            رجوع
-          </button>
-
-          <div className="flex items-center gap-3">
-            <div className="flex items-center justify-center w-10 h-10 text-white bg-blue-600 shadow-sm rounded-xl">
-              <FaBedPulse size={20} />
-            </div>
-
-            <div className="hidden text-right sm:block">
-              <p className="text-sm font-bold text-slate-900">
-                سرير
-              </p>
-
-              <p className="text-[11px] text-slate-400">
-                أقرب رعاية ليك
-              </p>
-            </div>
-          </div>
-        </div>
-      </header>
+    
 
       <div className="max-w-6xl px-4 py-8 mx-auto md:px-6 md:py-10">
 
@@ -121,8 +90,9 @@ const ResultsClient = () => {
             <div>
               <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-blue-100 bg-blue-50 px-3 py-1.5 text-xs font-semibold text-blue-700">
                 <FaLocationDot />
-               أقرب أماكن العناية المركزة المتاحة بناءً على موقعك الحالي
-              </div>
+{
+  pageDescription
+}              </div>
 
               <h1 className="text-2xl font-bold tracking-tight text-slate-900 md:text-3xl">
                 {pageTitle}

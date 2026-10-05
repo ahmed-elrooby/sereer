@@ -7,7 +7,7 @@ import mainTechLogo from "../../../../images/mainTech.jpeg";
 const Footer = () => {
   return (
     <footer className="bg-white border-t border-slate-100">
-      <div className="flex flex-col items-center justify-between w-full gap-5 px-4 py-6 mx-auto max-w-7xl sm:px-6 md:flex-row lg:px-8">
+      <div className="flex flex-col items-center justify-between w-full gap-5 px-4 py-4 mx-auto md:py-6 max-w-7xl sm:px-6 md:flex-row lg:px-8">
 
         {/* Copyright */}
         <div className="text-center md:text-right">

@@ -9,6 +9,7 @@ import React, { createContext, useState } from "react";
 import toast from "react-hot-toast";
 import api from "../lib/api.js";
 import { useRouter } from "next/navigation.js";
+import Cookies from 'js-cookie'
 
 export const authContext = createContext();
 
@@ -47,7 +48,7 @@ const Auth = ({ children }) => {
       // بعد Login الـCookie اتعملت
       // فنجيب بيانات المستخدم من /profile
        profileQuery.invalidateQueries(["profile"])
-
+Cookies.set("role", data?.user?.role);
       if (data?.user?.role === "platform_admin") {
         router.push("/Admin");
       } else if (data?.user?.role === "hospital_admin") {
@@ -91,6 +92,7 @@ const Auth = ({ children }) => {
   const user = profile?.data?.user || null;
 
   const role = user?.role || null;
+  
 // ================= UPDATE PROFILE ================
 const handleUpdateProfile = async (values) => {
   try {

@@ -9,6 +9,7 @@ import React, { createContext, useState } from "react";
 import toast from "react-hot-toast";
 import api from "../lib/api.js";
 import { useRouter } from "next/navigation.js";
+import Cookies from "js-cookie";
 
 export const authContext = createContext();
 
@@ -39,23 +40,27 @@ const Auth = ({ children }) => {
     mutationFn: handleLogin,
 
 
-    onSuccess:  (data) => {
-      toast.success(
-        data?.message || "تم تسجيل الدخول بنجاح"
-      );
-      
-      // بعد Login الـCookie اتعملت
-      // فنجيب بيانات المستخدم من /profile
-       profileQuery.invalidateQueries(["profile"])
+  onSuccess: (data) => {
+  toast.success(
+    data?.message || "تم تسجيل الدخول بنجاح"
+  );
 
-      if (data?.user?.role === "platform_admin") {
-        router.push("/Admin");
-      } else if (data?.user?.role === "hospital_admin") {
-        router.push("/Hospital");
-      } else {
-        router.push("/");
-      }
-    },
+  Cookies.set("role", data?.user?.role);
+
+  const role = data?.user?.role;
+
+  if (role === "platform_admin") {
+    router.push("/Admin");
+    return;
+  }
+
+  if (role === "hospital_admin") {
+    router.push("/Hospital");
+    return;
+  }
+
+  router.push("/");
+},
 
     onError: (error) => {
       toast.error(

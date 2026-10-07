@@ -169,6 +169,8 @@ const handleLogoutMutation = useMutation({
       data?.message || "تم تسجيل الخروج بنجاح"
     );
 router.push("/");
+ Cookies.remove("token");
+    Cookies.remove("role");
 
   },
 

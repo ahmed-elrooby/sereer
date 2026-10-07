@@ -1,12 +1,10 @@
-"use client";
 import { NextResponse } from "next/server";
-import Cookies from 'js-cookie'
 
 export function middleware(request) {
   const { pathname } = request.nextUrl;
 
   const token = request.cookies.get("token")?.value;
-  const role = Cookies.get("role");
+  const role = request.cookies.get("role")?.value;
 
   // ==========================================
   // LOGIN

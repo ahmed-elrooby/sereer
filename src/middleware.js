@@ -4,62 +4,43 @@ export function middleware(request) {
   const { pathname } = request.nextUrl;
 
   const token = request.cookies.get("token")?.value;
-const role = request.cookies.get("role")?.value;
-  // ==========================================
-  // LOGIN
-  // /
-  // ==========================================
+  const role = request.cookies.get("role")?.value;
+
+  console.log("MIDDLEWARE:", {
+    pathname,
+    token: !!token,
+    role,
+  });
 
   if (pathname === "/") {
-    // مفيش Login → يفضل في Login
     if (!token) {
       return NextResponse.next();
     }
 
-    // Platform Admin
     if (role === "platform_admin") {
       return NextResponse.redirect(
         new URL("/Admin", request.url)
       );
     }
 
-    // Hospital Admin
     if (role === "hospital_admin") {
       return NextResponse.redirect(
         new URL("/Hospital", request.url)
       );
     }
 
-    // Token أو Role غير صحيح
-    const response = NextResponse.next();
-
-    response.cookies.delete("token");
-    response.cookies.delete("role");
-
-    return response;
+    return NextResponse.next();
   }
-
-  // ==========================================
-  // PATIENT
-  // ==========================================
 
   if (pathname.startsWith("/Patient")) {
     return NextResponse.next();
   }
-
-  // ==========================================
-  // أي صفحة أخرى لازم Login
-  // ==========================================
 
   if (!token) {
     return NextResponse.redirect(
       new URL("/", request.url)
     );
   }
-
-  // ==========================================
-  // ADMIN
-  // ==========================================
 
   if (pathname.startsWith("/Admin")) {
     if (role !== "platform_admin") {
@@ -70,10 +51,6 @@ const role = request.cookies.get("role")?.value;
 
     return NextResponse.next();
   }
-
-  // ==========================================
-  // HOSPITAL
-  // ==========================================
 
   if (pathname.startsWith("/Hospital")) {
     if (role !== "hospital_admin") {

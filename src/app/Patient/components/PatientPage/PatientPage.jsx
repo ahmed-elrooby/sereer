@@ -1,11 +1,11 @@
 "use client";
 
 import { useContext, useState } from "react";
+
 import LocationPermissionModal from "../LocationPermissionModal/LocationPermissionModal.jsx";
 import { Patient } from "../../../providers/PatientContext.jsx";
 
-const PatientPage = () => {
-  const [showLocationModal, setShowLocationModal] = useState(true);
+const PatientPage = ({ onSuccess }) => {
   const [isLoadingLocation, setIsLoadingLocation] = useState(false);
   const [locationError, setLocationError] = useState("");
 
@@ -13,7 +13,9 @@ const PatientPage = () => {
 
   const handleAllowLocation = () => {
     if (!navigator.geolocation) {
-      setLocationError("المتصفح بتاعك مش بيدعم تحديد الموقع.");
+      setLocationError(
+        "المتصفح بتاعك مش بيدعم تحديد الموقع."
+      );
       return;
     }
 
@@ -24,14 +26,13 @@ const PatientPage = () => {
       (position) => {
         const { latitude, longitude } = position.coords;
 
-        
-
         // تخزين الموقع داخل PatientContext
         setPatientLocation(latitude, longitude);
 
-        // بعد نجاح الحصول على الموقع
         setIsLoadingLocation(false);
-        setShowLocationModal(false);
+
+        // بلغ Home إن الموقع اتحدد بنجاح
+        onSuccess?.();
       },
 
       (error) => {
@@ -54,8 +55,6 @@ const PatientPage = () => {
             "حصل خطأ أثناء تحديد موقعك. حاول مرة تانية."
           );
         }
-
-        // الـ Modal يفضل مفتوح
       },
 
       {
@@ -67,16 +66,12 @@ const PatientPage = () => {
   };
 
   return (
-    <>
-      {/* محتوى الصفحة */}
-
-      <LocationPermissionModal
-        isOpen={showLocationModal}
-        onAllow={handleAllowLocation}
-        isLoading={isLoadingLocation}
-        error={locationError}
-      />
-    </>
+    <LocationPermissionModal
+      isOpen={true}
+      onAllow={handleAllowLocation}
+      isLoading={isLoadingLocation}
+      error={locationError}
+    />
   );
 };
 

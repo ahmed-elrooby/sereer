@@ -1,6 +1,5 @@
 import React from "react";
 
-import PatientPage from "./components/PatientPage/PatientPage.jsx";
 import Home from "./components/Home/Home.jsx";
 
 export const metadata = {
@@ -37,7 +36,6 @@ export const metadata = {
 const Page = () => {
   return (
     <>
-      <PatientPage />
       <Home />
     </>
   );

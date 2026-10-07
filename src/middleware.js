@@ -6,7 +6,7 @@ export function middleware(request) {
   const { pathname } = request.nextUrl;
 
   const token = request.cookies.get("token")?.value;
-  const role = Cookies.get("role")?.value;
+  const role = Cookies.get("role");
 
   // ==========================================
   // LOGIN

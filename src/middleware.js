@@ -6,11 +6,17 @@ export function middleware(request) {
   const token = request.cookies.get("token")?.value;
   const role = request.cookies.get("role")?.value;
 
-  console.log("MIDDLEWARE:", {
-    pathname,
-    token: !!token,
-    role,
-  });
+  // =========================
+  // Patient - Public
+  // =========================
+
+  if (pathname.startsWith("/Patient")) {
+    return NextResponse.next();
+  }
+
+  // =========================
+  // Login
+  // =========================
 
   if (pathname === "/") {
     if (!token) {
@@ -32,15 +38,19 @@ export function middleware(request) {
     return NextResponse.next();
   }
 
-  if (pathname.startsWith("/Patient")) {
-    return NextResponse.next();
-  }
+  // =========================
+  // Protected Routes
+  // =========================
 
   if (!token) {
     return NextResponse.redirect(
       new URL("/", request.url)
     );
   }
+
+  // =========================
+  // Admin
+  // =========================
 
   if (pathname.startsWith("/Admin")) {
     if (role !== "platform_admin") {
@@ -51,6 +61,10 @@ export function middleware(request) {
 
     return NextResponse.next();
   }
+
+  // =========================
+  // Hospital
+  // =========================
 
   if (pathname.startsWith("/Hospital")) {
     if (role !== "hospital_admin") {

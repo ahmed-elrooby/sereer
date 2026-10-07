@@ -40,12 +40,22 @@ const Auth = ({ children }) => {
     mutationFn: handleLogin,
 
 
-  onSuccess: (data) => {
+onSuccess: (data) => {
   toast.success(
     data?.message || "تم تسجيل الدخول بنجاح"
   );
 
-  Cookies.set("role", data?.user?.role);
+  Cookies.set("token", data?.token, {
+    expires: 7,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+  });
+
+  Cookies.set("role", data?.user?.role, {
+    expires: 7,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+  });
 
   const role = data?.user?.role;
 

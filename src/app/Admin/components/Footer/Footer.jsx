@@ -5,7 +5,7 @@ import maintech from "../../../../images/mainTech.jpeg";
 
 const Footer = () => {
   return (
-    <footer className="pt-5 mt-8 border-t border-slate-200/80">
+    <footer className="pt-5 mt-8 mb-4 border-t border-slate-200/80">
       <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
 
         {/* Copyright */}

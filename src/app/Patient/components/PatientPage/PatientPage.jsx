@@ -14,7 +14,9 @@ const PatientPage = ({ onSuccess }) => {
 
   const handleAllowLocation = () => {
     if (!navigator.geolocation) {
-      setLocationError("المتصفح بتاعك مش بيدعم تحديد الموقع.");
+      setLocationError(
+        "المتصفح بتاعك مش بيدعم تحديد الموقع."
+      );
       return;
     }
 
@@ -25,22 +27,16 @@ const PatientPage = ({ onSuccess }) => {
       (position) => {
         const { latitude, longitude } = position.coords;
 
-        // تخزين الموقع داخل PatientContext
+        // حفظ الموقع في PatientContext و localStorage
         setPatientLocation(latitude, longitude);
-
-        // تخزين الموقع أثناء الجلسة
-        sessionStorage.setItem(
-          "patientLocation",
-          JSON.stringify({
-            latitude,
-            longitude,
-          })
-        );
 
         setIsLoadingLocation(false);
 
         // إرسال الإحداثيات إلى Home
-        onSuccess?.({ latitude, longitude });
+        onSuccess?.({
+          latitude,
+          longitude,
+        });
       },
 
       (error) => {

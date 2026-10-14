@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useContext, useState } from "react";
@@ -13,9 +14,7 @@ const PatientPage = ({ onSuccess }) => {
 
   const handleAllowLocation = () => {
     if (!navigator.geolocation) {
-      setLocationError(
-        "المتصفح بتاعك مش بيدعم تحديد الموقع."
-      );
+      setLocationError("المتصفح بتاعك مش بيدعم تحديد الموقع.");
       return;
     }
 
@@ -29,10 +28,19 @@ const PatientPage = ({ onSuccess }) => {
         // تخزين الموقع داخل PatientContext
         setPatientLocation(latitude, longitude);
 
+        // تخزين الموقع أثناء الجلسة
+        sessionStorage.setItem(
+          "patientLocation",
+          JSON.stringify({
+            latitude,
+            longitude,
+          })
+        );
+
         setIsLoadingLocation(false);
 
-        // بلغ Home إن الموقع اتحدد بنجاح
-        onSuccess?.();
+        // إرسال الإحداثيات إلى Home
+        onSuccess?.({ latitude, longitude });
       },
 
       (error) => {

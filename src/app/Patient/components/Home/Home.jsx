@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from "react";
@@ -7,8 +8,10 @@ import {
   FaBedPulse,
   FaHeartPulse,
 } from "react-icons/fa6";
+
 import PatientPage from "../PatientPage/PatientPage.jsx";
 
+const LOCATION_KEY = "patientLocation";
 
 const Home = () => {
   const router = useRouter();
@@ -18,23 +21,59 @@ const Home = () => {
 
   const handleNavigate = (type) => {
     setSelectedType(type);
+
+    // لو الموقع محفوظ بالفعل، انتقل للنتائج مباشرة
+    const savedLocation = sessionStorage.getItem(LOCATION_KEY);
+
+    if (savedLocation) {
+      try {
+        const location = JSON.parse(savedLocation);
+
+        if (
+          Number.isFinite(location.latitude) &&
+          Number.isFinite(location.longitude)
+        ) {
+          router.push(`/Patient/Results/${type}`);
+          return;
+        }
+      } catch {
+        sessionStorage.removeItem(LOCATION_KEY);
+      }
+    }
+
+    // لو مفيش موقع محفوظ، اطلبه
     setShowLocationModal(true);
   };
 
-  const handleLocationSuccess = () => {
+  const handleLocationSuccess = (location) => {
+    // حفظ الإحداثيات لو PatientPage بعتهم
+    if (
+      location &&
+      Number.isFinite(location.latitude) &&
+      Number.isFinite(location.longitude)
+    ) {
+      sessionStorage.setItem(
+        LOCATION_KEY,
+        JSON.stringify({
+          latitude: location.latitude,
+          longitude: location.longitude,
+        })
+      );
+    }
+
     setShowLocationModal(false);
 
-    router.push(`/Patient/Results/${selectedType}`);
+    if (selectedType) {
+      router.push(`/Patient/Results/${selectedType}`);
+    }
   };
 
   return (
     <>
-      <main className="min-h-[70vh] px-4 py-6 bg-slate-50 md:min-h-screen md:px-6">
+      <main className="min-h-[70vh] bg-slate-50 px-4 py-6 md:min-h-screen md:px-6">
         <div className="flex flex-col justify-center max-w-5xl mx-auto">
-
           {/* Header */}
           <div className="w-full max-w-2xl mx-auto text-center">
-
             <h1 className="text-3xl font-bold tracking-tight text-slate-900 md:text-4xl">
               بتدور على إيه؟
             </h1>
@@ -46,16 +85,13 @@ const Home = () => {
 
           {/* Cards */}
           <div className="grid gap-5 mt-8 md:grid-cols-2">
-
             {/* NICU */}
             <button
               type="button"
               onClick={() => handleNavigate("NICU")}
               className="flex items-center justify-center gap-4 px-4 py-4 text-white transition-all bg-blue-600 rounded-lg hover:bg-blue-500"
             >
-              <div className="flex items-center justify-center text-white">
-                <FaBedPulse size={30} />
-              </div>
+              <FaBedPulse size={30} />
 
               <p className="text-lg font-bold">
                 حضانة أطفال
@@ -68,9 +104,7 @@ const Home = () => {
               onClick={() => handleNavigate("ICU")}
               className="flex items-center justify-center gap-4 px-4 py-4 text-white transition-all bg-green-600 rounded-lg hover:bg-green-500"
             >
-              <div className="flex items-center justify-center text-white">
-                <FaHeartPulse size={30} />
-              </div>
+              <FaHeartPulse size={30} />
 
               <p className="text-lg font-bold">
                 عناية مركزة

@@ -130,7 +130,7 @@ const handleUpdateProfile = async (values) => {
       };
     }
 
-    const { data } = await api.patch("/profile", payload);
+    const { data } = await api.put("/profile", payload);
 
     return data;
   } finally {

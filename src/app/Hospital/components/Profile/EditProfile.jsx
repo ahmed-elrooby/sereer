@@ -26,6 +26,7 @@ const EditProfile = () => {
     profile,
     setOpenUpdateProfile,
     handleUpdateProfileSubmit,
+    loading,
   } = useContext(authContext);
 
   const user = profile?.data?.user;
@@ -240,11 +241,10 @@ const EditProfile = () => {
 
                 <button
                   type="submit"
-                  disabled={isSubmitting}
                   className="inline-flex items-center justify-center gap-2 px-5 py-2.5 text-sm font-semibold text-white transition bg-blue-600 rounded-xl hover:bg-blue-700 disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   <FaFloppyDisk size={14} />
-                  {isSubmitting ? "جارٍ الحفظ..." : "حفظ التعديلات"}
+                  {loading ? "جارٍ الحفظ..." : "حفظ التعديلات"}
                 </button>
               </div>
             </Form>

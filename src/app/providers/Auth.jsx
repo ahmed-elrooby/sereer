@@ -111,14 +111,33 @@ onSuccess: (data) => {
 const handleUpdateProfile = async (values) => {
   try {
     setLoading(true);
-    const { data } = await api.put("/profile", values);
+
+    const isHospitalAdmin =
+      profile?.data?.user?.role === "hospital_admin";
+
+    const payload = {
+      user: {
+        name: values.name,
+        email: values.email,
+      },
+    };
+
+    if (isHospitalAdmin) {
+      payload.facility = {
+        name: values.facilityName,
+        phone: values.facilityPhone,
+        address: values.facilityAddress,
+      };
+    }
+
+    const { data } = await api.patch("/profile", payload);
+
     return data;
-  } catch (error) {
-    throw error;
-  }finally {
+  } finally {
     setLoading(false);
   }
-}
+};
+
 const [openUpdateProfile, setOpenUpdateProfile] = useState(false);
 
 const handleUpdateProfileMutation = useMutation({

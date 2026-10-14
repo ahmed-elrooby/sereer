@@ -81,14 +81,14 @@ const Aside = ({ sidebarOpen, setSidebarOpen }) => {
       onClick={() => setSidebarOpen(false)}
       className="flex items-center gap-3"
     >
-<div className="flex items-center justify-center w-14 h-14 shrink-0">
+<div className="flex items-center justify-center overflow-hidden w-14 h-14 shrink-0 rounded-xl">
   <Image
     src={logo}
     alt="سرير"
     width={80}
     height={80}
     priority
-    className="object-contain w-20 h-20"
+    className="object-contain w-full h-full"
   />
 </div>
 

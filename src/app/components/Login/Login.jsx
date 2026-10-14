@@ -74,10 +74,10 @@ const Login = () => {
   <Image
     src={logo}
     alt="سرير"
-    width={110}
-    height={110}
+    width={60}
+    height={60}
     priority
-    className="h-20 w-20 scale-[1.7] object-contain"
+    className="h-12 rounded-lg w-12 scale-[1.7] object-contain"
   />
 </div>
                 <div>

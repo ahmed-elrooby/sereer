@@ -40,11 +40,12 @@ const Auth = ({ children }) => {
     mutationFn: handleLogin,
 
 
-onSuccess: (data) => {
-  toast.success(
-    data?.message || "تم تسجيل الدخول بنجاح"
-  );
+onSuccess: async (data) => {
+  // إلغاء أي طلبات قديمة ومسح كاش الحساب السابق
+  await profileQuery.cancelQueries();
+  profileQuery.clear();
 
+  // حفظ بيانات الحساب الجديد
   Cookies.set("token", data?.token, {
     expires: 7,
     secure: process.env.NODE_ENV === "production",
@@ -57,19 +58,21 @@ onSuccess: (data) => {
     sameSite: "lax",
   });
 
+  toast.success(data?.message || "تم تسجيل الدخول بنجاح");
+
   const role = data?.user?.role;
 
   if (role === "platform_admin") {
-    router.push("/Admin");
+    router.replace("/Admin");
     return;
   }
 
   if (role === "hospital_admin") {
-    router.push("/Hospital");
+    router.replace("/Hospital");
     return;
   }
 
-  router.push("/");
+  router.replace("/");
 },
 
     onError: (error) => {
@@ -191,15 +194,19 @@ const handleLogoutMutation = useMutation({
 
   mutationFn: handleLogout,
 
-  onSuccess: (data) => {
-    toast.success(
-      data?.message || "تم تسجيل الخروج بنجاح"
-    );
-router.push("/");
- Cookies.remove("token");
-    Cookies.remove("role");
+onSuccess: async (data) => {
+  // امسح بيانات الحساب القديم أولًا
+  await profileQuery.cancelQueries();
+  profileQuery.clear();
 
-  },
+  // امسح بيانات تسجيل الدخول
+  Cookies.remove("token");
+  Cookies.remove("role");
+
+  toast.success(data?.message || "تم تسجيل الخروج بنجاح");
+
+  router.replace("/");
+},
 
   onError: (error) => {
     toast.error(

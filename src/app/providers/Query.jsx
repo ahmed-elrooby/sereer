@@ -15,8 +15,7 @@ const queryClient = new QueryClient({
       refetchOnWindowFocus: false,
 
       // عدم إعادة الطلب تلقائيًا عند Mount لو البيانات Fresh
-      refetchOnMount: false,
-
+refetchOnMount: true,
       // إعادة المحاولة مرة واحدة عند حدوث خطأ
       retry: 1,
     },

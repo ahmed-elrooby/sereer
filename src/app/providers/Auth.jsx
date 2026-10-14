@@ -108,6 +108,7 @@ onSuccess: (data) => {
   const role = user?.role || null;
   
 // ================= UPDATE PROFILE ================
+
 const handleUpdateProfile = async (values) => {
   try {
     setLoading(true);
@@ -126,7 +127,14 @@ const handleUpdateProfile = async (values) => {
       payload.facility = {
         name: values.facilityName,
         phone: values.facilityPhone,
-        address: values.facilityAddress,
+
+        location: {
+          type: "Point",
+          coordinates: [
+            Number(values.longitude),
+            Number(values.latitude),
+          ],
+        },
       };
     }
 

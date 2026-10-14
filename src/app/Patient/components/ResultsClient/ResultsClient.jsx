@@ -1,11 +1,7 @@
 
 "use client";
 
-import React, {
-  useContext,
-  useState,
-} from "react";
-
+import React, { useContext, useState } from "react";
 import { useParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 
@@ -20,18 +16,24 @@ import {
 } from "react-icons/fa6";
 
 import { Patient } from "../../../providers/PatientContext.jsx";
-import PatientPage from "../../PatientPage/PatientPage.jsx";
+import LocationPermissionModal from "../../LocationPermissionModal/LocationPermissionModal.jsx";
 
 const ResultsClient = () => {
   const params = useParams();
   const type = params?.type;
 
-  const { location, getNearbyHospitals } = useContext(Patient);
+  const {
+    location,
+    setPatientLocation,
+    getNearbyHospitals,
+  } = useContext(Patient);
 
   const [showLocationModal, setShowLocationModal] =
     useState(false);
+  const [isLoadingLocation, setIsLoadingLocation] =
+    useState(false);
+  const [locationError, setLocationError] = useState("");
 
-  // التحقق من وجود إحداثيات صحيحة
   const hasLocation =
     Number.isFinite(location?.lat) &&
     Number.isFinite(location?.lng);
@@ -49,19 +51,12 @@ const ResultsClient = () => {
       location?.lat,
       location?.lng,
     ],
-
     queryFn: () =>
-      getNearbyHospitals(
-        type,
-        location.lat,
-        location.lng
-      ),
-
+      getNearbyHospitals(type, location.lat, location.lng),
     enabled: Boolean(type) && hasLocation,
   });
 
   const hospitals = data?.data || [];
-
   const isNICU = type === "NICU";
 
   const pageTitle = isNICU
@@ -76,30 +71,68 @@ const ResultsClient = () => {
     ? "حضّانة أطفال"
     : "عناية مركزة";
 
-  // فتح الاتجاهات على خرائط Google
-  const handleDirections = (hospital) => {
-    const coordinates =
-      hospital?.location?.coordinates;
+  // تحديد الموقع من نفس الصفحة بدون الانتقال إلى Home
+  const handleAllowLocation = () => {
+    if (!navigator.geolocation) {
+      setLocationError("المتصفح بتاعك مش بيدعم تحديد الموقع.");
+      return;
+    }
 
-    if (
-      !Array.isArray(coordinates) ||
-      coordinates.length !== 2
-    ) {
+    setIsLoadingLocation(true);
+    setLocationError("");
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+
+        setPatientLocation(latitude, longitude);
+        setIsLoadingLocation(false);
+        setShowLocationModal(false);
+      },
+      (error) => {
+        setIsLoadingLocation(false);
+
+        if (error.code === error.PERMISSION_DENIED) {
+          setLocationError(
+            "لازم تسمح بالوصول لموقعك من إعدادات المتصفح."
+          );
+        } else if (error.code === error.POSITION_UNAVAILABLE) {
+          setLocationError(
+            "مش قادرين نحدد موقعك حاليًا. حاول مرة تانية."
+          );
+        } else if (error.code === error.TIMEOUT) {
+          setLocationError(
+            "تحديد الموقع استغرق وقت طويل. حاول مرة تانية."
+          );
+        } else {
+          setLocationError(
+            "حصل خطأ أثناء تحديد موقعك. حاول مرة تانية."
+          );
+        }
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 15000,
+        maximumAge: 0,
+      }
+    );
+  };
+
+  const handleDirections = (hospital) => {
+    const coordinates = hospital?.location?.coordinates;
+
+    if (!Array.isArray(coordinates) || coordinates.length !== 2) {
       return;
     }
 
     const [lng, lat] = coordinates;
-
-    const url =
-      `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
+    const url = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
 
     window.open(url, "_blank", "noopener,noreferrer");
   };
 
-  // الاتصال بالمستشفى
   const handleCall = (phone) => {
     if (!phone) return;
-
     window.location.href = `tel:${phone}`;
   };
 
@@ -122,7 +155,7 @@ const ResultsClient = () => {
           </div>
         </section>
 
-        {/* 1. الموقع غير موجود */}
+        {/* الموقع غير موجود */}
         {!hasLocation && (
           <div className="flex min-h-[350px] items-center justify-center">
             <div className="w-full max-w-lg p-8 text-center bg-white border shadow-sm rounded-3xl border-amber-200">
@@ -135,14 +168,16 @@ const ResultsClient = () => {
               </h2>
 
               <p className="mt-3 text-sm leading-7 text-slate-600">
-                عشان نقدر نعرضلك أقرب المستشفيات المتاحة،
-                لازم نحدد موقعك الجغرافي الأول.
-                اضغط على الزرار وحدد موقعك، وهنعرضلك النتائج هنا مباشرةً.
+                عشان نعرضلك أقرب المستشفيات المتاحة، لازم نحدد موقعك الجغرافي الأول.
+                اضغط على الزرار وحدد موقعك، والنتائج هتظهر هنا.
               </p>
 
               <button
                 type="button"
-                onClick={() => setShowLocationModal(true)}
+                onClick={() => {
+                  setLocationError("");
+                  setShowLocationModal(true);
+                }}
                 className="mt-6 inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-5 py-3.5 text-sm font-semibold text-white transition hover:bg-blue-700"
               >
                 <FaLocationDot />
@@ -153,15 +188,14 @@ const ResultsClient = () => {
         )}
 
         {/* نافذة تحديد الموقع */}
-        {showLocationModal && (
-          <PatientPage
-            onSuccess={() => {
-              setShowLocationModal(false);
-            }}
-          />
-        )}
+        <LocationPermissionModal
+          isOpen={showLocationModal}
+          onAllow={handleAllowLocation}
+          isLoading={isLoadingLocation}
+          error={locationError}
+        />
 
-        {/* 2. Loading */}
+        {/* Loading */}
         {hasLocation && isLoading && (
           <div className="space-y-4">
             {[1, 2, 3].map((item) => (
@@ -171,7 +205,6 @@ const ResultsClient = () => {
               >
                 <div className="flex gap-4">
                   <div className="h-14 w-14 shrink-0 rounded-2xl bg-slate-200" />
-
                   <div className="flex-1">
                     <div className="w-48 h-5 rounded bg-slate-200" />
                     <div className="h-4 max-w-full mt-3 rounded w-72 bg-slate-100" />
@@ -183,7 +216,7 @@ const ResultsClient = () => {
           </div>
         )}
 
-        {/* 3. خطأ في جلب البيانات */}
+        {/* خطأ في جلب البيانات */}
         {hasLocation && isError && (
           <div className="flex min-h-[350px] items-center justify-center">
             <div className="w-full max-w-md p-8 text-center bg-white border border-red-100 shadow-sm rounded-3xl">
@@ -206,15 +239,13 @@ const ResultsClient = () => {
                 onClick={() => refetch()}
                 className="px-6 py-3 mt-6 text-sm font-semibold text-white transition bg-blue-600 rounded-xl hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60"
               >
-                {isFetching
-                  ? "جاري المحاولة..."
-                  : "حاول مرة تانية"}
+                {isFetching ? "جاري المحاولة..." : "حاول مرة تانية"}
               </button>
             </div>
           </div>
         )}
 
-        {/* 4. لا توجد نتائج */}
+        {/* لا توجد نتائج */}
         {hasLocation &&
           !isLoading &&
           !isError &&
@@ -240,15 +271,13 @@ const ResultsClient = () => {
                   onClick={() => refetch()}
                   className="px-6 py-3 mt-6 text-sm font-semibold text-white transition bg-blue-600 rounded-xl hover:bg-blue-700 disabled:opacity-60"
                 >
-                  {isFetching
-                    ? "جاري البحث..."
-                    : "إعادة البحث"}
+                  {isFetching ? "جاري البحث..." : "إعادة البحث"}
                 </button>
               </div>
             </div>
           )}
 
-        {/* 5. نتائج المستشفيات */}
+        {/* نتائج المستشفيات */}
         {hasLocation &&
           !isLoading &&
           !isError &&
@@ -260,9 +289,7 @@ const ResultsClient = () => {
 
                 const distance =
                   hospital?.distance != null &&
-                  Number.isFinite(
-                    Number(hospital.distance)
-                  )
+                  Number.isFinite(Number(hospital.distance))
                     ? Number(hospital.distance).toFixed(1)
                     : "--";
 
@@ -271,10 +298,7 @@ const ResultsClient = () => {
 
                 const hasCoordinates =
                   Array.isArray(coordinates) &&
-                  coordinates.length === 2 &&
-                  coordinates.every((value) =>
-                    Number.isFinite(Number(value))
-                  );
+                  coordinates.length === 2;
 
                 return (
                   <article
@@ -282,7 +306,6 @@ const ResultsClient = () => {
                     className="group overflow-hidden rounded-3xl border-4 border-blue-600 bg-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-blue-200 hover:shadow-md"
                   >
                     <div className="p-5 md:p-6">
-                      {/* بيانات المستشفى */}
                       <div className="flex items-start gap-4">
                         <div className="flex items-center justify-center w-10 h-10 text-blue-600 transition-colors shrink-0 rounded-2xl bg-blue-50 group-hover:bg-blue-600 group-hover:text-white md:h-14 md:w-14">
                           <FaHospital className="text-lg" />
@@ -297,10 +320,8 @@ const ResultsClient = () => {
 
                               <div className="flex items-start gap-2 mt-2 text-sm text-slate-500">
                                 <FaLocationDot className="mt-1 text-blue-500 shrink-0" />
-
                                 <span className="leading-6">
-                                  {hospital.address ||
-                                    "العنوان غير متوفر"}
+                                  {hospital.address || "العنوان غير متوفر"}
                                 </span>
                               </div>
                             </div>
@@ -313,7 +334,6 @@ const ResultsClient = () => {
                         </div>
                       </div>
 
-                      {/* الأسرة المتاحة */}
                       <div className="grid gap-3 mt-4 sm:grid-cols-2">
                         <div className="flex items-center justify-between p-3 border-2 rounded-2xl border-emerald-100 bg-emerald-50/70">
                           <div className="flex items-center gap-3">
@@ -325,10 +345,8 @@ const ResultsClient = () => {
                               <p className="text-xs text-slate-500">
                                 الأسرة المتاحة
                               </p>
-
                               <p className="mt-0.5 text-sm font-bold text-slate-900">
-                                {hospital?.unit?.name ||
-                                  unitLabel}
+                                {hospital?.unit?.name || unitLabel}
                               </p>
                             </div>
                           </div>
@@ -337,7 +355,6 @@ const ResultsClient = () => {
                             <p className="text-2xl font-bold text-emerald-600">
                               {availableBeds}
                             </p>
-
                             <p className="text-[11px] font-medium text-emerald-600">
                               سرير متاح
                             </p>
@@ -345,14 +362,11 @@ const ResultsClient = () => {
                         </div>
                       </div>
 
-                      {/* أزرار التواصل */}
                       <div className="flex flex-col gap-3 mt-4 sm:flex-row">
                         <button
                           type="button"
                           disabled={!hospital.phone}
-                          onClick={() =>
-                            handleCall(hospital.phone)
-                          }
+                          onClick={() => handleCall(hospital.phone)}
                           className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-blue-600 px-5 py-3.5 text-sm font-semibold text-white transition hover:bg-blue-700 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-50"
                         >
                           <FaPhone />
@@ -362,9 +376,7 @@ const ResultsClient = () => {
                         <button
                           type="button"
                           disabled={!hasCoordinates}
-                          onClick={() =>
-                            handleDirections(hospital)
-                          }
+                          onClick={() => handleDirections(hospital)}
                           className="flex flex-1 items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-5 py-3.5 text-sm font-semibold text-slate-700 transition hover:border-blue-200 hover:bg-blue-50 hover:text-blue-700 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-50"
                         >
                           <FaRoute />

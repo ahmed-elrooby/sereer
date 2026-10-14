@@ -14,9 +14,9 @@ import {
   FaHospital,
   FaTriangleExclamation,
 } from "react-icons/fa6";
-
+import LocationPermissionModal from "../LocationPermissionModal/LocationPermissionModal.jsx";
 import { Patient } from "../../../providers/PatientContext.jsx";
-import LocationPermissionModal from "../../LocationPermissionModal/LocationPermissionModal.jsx";
+
 
 const ResultsClient = () => {
   const params = useParams();

@@ -1,8 +1,12 @@
 
 "use client";
 
-import React, { useContext } from "react";
-import { useParams, useRouter } from "next/navigation";
+import React, {
+  useContext,
+  useState,
+} from "react";
+
+import { useParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 
 import {
@@ -16,14 +20,16 @@ import {
 } from "react-icons/fa6";
 
 import { Patient } from "../../../providers/PatientContext.jsx";
+import PatientPage from "../../PatientPage/PatientPage.jsx";
 
 const ResultsClient = () => {
-  const router = useRouter();
   const params = useParams();
-
   const type = params?.type;
 
   const { location, getNearbyHospitals } = useContext(Patient);
+
+  const [showLocationModal, setShowLocationModal] =
+    useState(false);
 
   // التحقق من وجود إحداثيات صحيحة
   const hasLocation =
@@ -72,7 +78,8 @@ const ResultsClient = () => {
 
   // فتح الاتجاهات على خرائط Google
   const handleDirections = (hospital) => {
-    const coordinates = hospital?.location?.coordinates;
+    const coordinates =
+      hospital?.location?.coordinates;
 
     if (
       !Array.isArray(coordinates) ||
@@ -83,7 +90,8 @@ const ResultsClient = () => {
 
     const [lng, lat] = coordinates;
 
-    const url = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
+    const url =
+      `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
 
     window.open(url, "_blank", "noopener,noreferrer");
   };
@@ -129,12 +137,12 @@ const ResultsClient = () => {
               <p className="mt-3 text-sm leading-7 text-slate-600">
                 عشان نقدر نعرضلك أقرب المستشفيات المتاحة،
                 لازم نحدد موقعك الجغرافي الأول.
-                ارجع للصفحة الرئيسية وحدد موقعك، وبعدها هنجيبلك النتائج.
+                اضغط على الزرار وحدد موقعك، وهنعرضلك النتائج هنا مباشرةً.
               </p>
 
               <button
                 type="button"
-                onClick={() => router.push("/Patient")}
+                onClick={() => setShowLocationModal(true)}
                 className="mt-6 inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-5 py-3.5 text-sm font-semibold text-white transition hover:bg-blue-700"
               >
                 <FaLocationDot />
@@ -142,6 +150,15 @@ const ResultsClient = () => {
               </button>
             </div>
           </div>
+        )}
+
+        {/* نافذة تحديد الموقع */}
+        {showLocationModal && (
+          <PatientPage
+            onSuccess={() => {
+              setShowLocationModal(false);
+            }}
+          />
         )}
 
         {/* 2. Loading */}
@@ -243,9 +260,21 @@ const ResultsClient = () => {
 
                 const distance =
                   hospital?.distance != null &&
-                  Number.isFinite(Number(hospital.distance))
+                  Number.isFinite(
+                    Number(hospital.distance)
+                  )
                     ? Number(hospital.distance).toFixed(1)
                     : "--";
+
+                const coordinates =
+                  hospital?.location?.coordinates;
+
+                const hasCoordinates =
+                  Array.isArray(coordinates) &&
+                  coordinates.length === 2 &&
+                  coordinates.every((value) =>
+                    Number.isFinite(Number(value))
+                  );
 
                 return (
                   <article
@@ -298,7 +327,8 @@ const ResultsClient = () => {
                               </p>
 
                               <p className="mt-0.5 text-sm font-bold text-slate-900">
-                                {hospital?.unit?.name || unitLabel}
+                                {hospital?.unit?.name ||
+                                  unitLabel}
                               </p>
                             </div>
                           </div>
@@ -331,12 +361,7 @@ const ResultsClient = () => {
 
                         <button
                           type="button"
-                          disabled={
-                            !Array.isArray(
-                              hospital?.location?.coordinates
-                            ) ||
-                            hospital.location.coordinates.length !== 2
-                          }
+                          disabled={!hasCoordinates}
                           onClick={() =>
                             handleDirections(hospital)
                           }

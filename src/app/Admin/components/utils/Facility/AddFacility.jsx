@@ -1112,7 +1112,7 @@ const AddFacility = () => {
 
                     <div className="relative flex-1">
 
-                      <FaMagnifyingGlass className="absolute -translate-y-1/2 right-4 top-1/2 text-slate-500" />
+                      <FaMagnifyingGlass className="absolute -translate-y-1/2 left-4 top-1/2 text-slate-500" />
 
                       <input
                         type="text"

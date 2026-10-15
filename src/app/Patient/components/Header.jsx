@@ -20,10 +20,10 @@ const Header = () => {
             <Image
               src={logo}
               alt="عناية وحضّانة"
-              width={64}
-              height={64}
+              width={50}
+              height={50}
               priority
-              className="object-contain w-full h-full"
+              className="object-contain w-full h-full rounded-lg"
             />
           </div>
 

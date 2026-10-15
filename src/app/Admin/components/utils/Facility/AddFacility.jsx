@@ -662,7 +662,7 @@ const AddFacility = () => {
 
                     <div className="relative">
 
-                      <FaHospital className="absolute -translate-y-1/2 right-4 top-1/2 text-slate-500" />
+                      <FaHospital className="absolute -translate-y-1/2 left-4 top-1/2 text-slate-500" />
 
                       <Field
                         name="name"
@@ -693,7 +693,7 @@ const AddFacility = () => {
 
                     <div className="relative">
 
-                      <FaPhone className="absolute -translate-y-1/2 right-4 top-1/2 text-slate-500" />
+                      <FaPhone className="absolute -translate-y-1/2 left-4 top-1/2 text-slate-500" />
 
                       <Field
                         name="phone"
@@ -1309,7 +1309,7 @@ const AddFacility = () => {
 
                     <div className="relative">
 
-                      <FaUser className="absolute -translate-y-1/2 right-4 top-1/2 text-slate-500" />
+                      <FaUser className="absolute -translate-y-1/2 left-4 top-1/2 text-slate-500" />
 
                       <Field
                         name="adminName"
@@ -1340,7 +1340,7 @@ const AddFacility = () => {
 
                     <div className="relative">
 
-                      <FaEnvelope className="absolute -translate-y-1/2 right-4 top-1/2 text-slate-500" />
+                      <FaEnvelope className="absolute -translate-y-1/2 left-4 top-1/2 text-slate-500" />
 
                       <Field
                         type="email"
@@ -1372,7 +1372,7 @@ const AddFacility = () => {
 
                     <div className="relative">
 
-                      <FaLock className="absolute -translate-y-1/2 right-4 top-1/2 text-slate-500" />
+                      <FaLock className="absolute -translate-y-1/2 left-4 top-1/2 text-slate-500" />
 
                       <Field
                         type="password"

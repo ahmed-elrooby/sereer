@@ -23,7 +23,7 @@ const Header = () => {
               width={50}
               height={50}
               priority
-              className="object-contain w-full h-full rounded-lg"
+              className="object-contain rounded-lg"
             />
           </div>
 

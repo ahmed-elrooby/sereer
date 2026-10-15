@@ -327,6 +327,7 @@ const EditProfile = () => {
                             step="any"
                             name="latitude"
                             placeholder="29.0741"
+                            readOnly
                             className="w-full px-3 py-3 text-sm border outline-none rounded-xl border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
                           />
 
@@ -345,6 +346,7 @@ const EditProfile = () => {
                           <Field
                             type="number"
                             step="any"
+                            readOnly
                             name="longitude"
                             placeholder="31.1150"
                             className="w-full px-3 py-3 text-sm border outline-none rounded-xl border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100"

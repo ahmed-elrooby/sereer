@@ -31,6 +31,7 @@ const Aside = ({ sidebarOpen, setSidebarOpen }) => {
 
   // هل المستشفى عندها عناية مركزة؟
   const hasICU = services.includes("ICU");
+  const userName = profile?.data?.user?.name || "مدير المستشفى";
 
   const navItems = [
     {
@@ -165,7 +166,7 @@ const Aside = ({ sidebarOpen, setSidebarOpen }) => {
 
           <div className="min-w-0">
             <p className="text-sm font-semibold truncate">
-              {profile?.data?.facility?.name || "المستشفى"}
+              {userName || "المستشفى"}
             </p>
 
             <p className="mt-0.5 text-[11px] text-slate-500">

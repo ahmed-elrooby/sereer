@@ -16,7 +16,7 @@ const Footer = () => {
           </p>
 
           <p className="mt-1 text-[11px] text-slate-400 sm:text-xs">
-            سرير sreer — فكرة واشراف د.أدهم محمد
+            سرير sreer — فكرة د.أدهم محمد
           </p>
         </div>
 

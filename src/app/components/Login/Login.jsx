@@ -86,7 +86,7 @@ const Login = () => {
                   </h1>
 
                   <p className="mt-1 text-xs text-[#64748B]">
-                    Seerer Healthcare Platform
+                    Sreer Healthcare Platform
                   </p>
                 </div>
 

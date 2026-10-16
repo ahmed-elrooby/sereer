@@ -1,52 +1,49 @@
-import React from "react";
+"use client";
+
 import Image from "next/image";
 
-import mainTech from "../../../../images/mainTech.jpeg";
+import mainTechLogo from "../../../../images/mainTech.jpeg";
 
 const Footer = () => {
   return (
-    <footer className="mt-auto border-t border-slate-200 bg-white">
-      <div className="flex flex-col items-center justify-between gap-4 px-4 py-5 sm:flex-row">
+    <footer className="bg-white border-t border-slate-100">
+      <div className="flex flex-col items-center justify-between w-full gap-5 px-4 py-4 mx-auto md:py-6 max-w-7xl sm:px-6 md:flex-row lg:px-8">
 
         {/* Copyright */}
-        <div className="text-center sm:text-right">
-          <p className="text-xs font-semibold text-slate-600">
+        <div className="text-center md:text-right">
+          <p className="text-xs font-semibold text-slate-600 sm:text-sm">
             جميع الحقوق محفوظة © 2026 لشركة Main Tech
           </p>
 
-          <p className="mt-1 text-[11px] text-slate-400">
-            سرير — أقرب رعاية ليك
+          <p className="mt-1 text-[11px] text-slate-400 sm:text-xs">
+            سرير sreer — فكرة  د.أدهم محمد
           </p>
         </div>
 
         {/* Main Tech */}
         <div className="flex items-center gap-3">
-          <span className="hidden text-[11px] text-slate-400 sm:block">
-            Powered by
+          <span className="text-xs font-medium text-slate-400">
+            تطوير وتشغيل
           </span>
 
-          <div className="flex items-center gap-2.5">
-            {/* Logo */}
-            <div className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-full border border-slate-200 bg-white shadow-sm">
-              <Image
-                src={mainTech}
-                alt="Main Tech"
-                width={36}
-                height={36}
-                className="h-full w-full object-cover"
-              />
-            </div>
+          <div className="flex items-center justify-center w-12 h-12 overflow-hidden bg-white border rounded-full shadow-sm shrink-0 border-slate-100">
+            <Image
+              src={mainTechLogo}
+              alt="Main Tech"
+              width={48}
+              height={48}
+              className="object-cover w-full h-full"
+            />
+          </div>
 
-            {/* Name */}
-            <div className="leading-none">
-              <p className="text-xs font-bold text-slate-700">
-                Main Tech
-              </p>
+          <div className="flex-col hidden leading-none sm:flex">
+            <span className="text-sm font-bold text-slate-800">
+              Main Tech
+            </span>
 
-              <p className="mt-1 text-[9px] text-slate-400">
-                Technology Solutions
-              </p>
-            </div>
+            <span className="mt-1 text-[10px] text-slate-400">
+              Technology Solutions
+            </span>
           </div>
         </div>
 

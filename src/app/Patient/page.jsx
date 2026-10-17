@@ -9,6 +9,7 @@ export const metadata = {
 
   keywords: [
     "سرير",
+    "sreer",
     "أقرب حضانة",
     "حضانات أطفال",
     "عناية مركزة",

@@ -10,6 +10,7 @@ import {
 } from "react-icons/fa6";
 
 import PatientPage from "../PatientPage/PatientPage.jsx";
+import WhatsAppSupport from "../../../components/WhatsAppSupport.jsx";
 
 const LOCATION_KEY = "patientLocation";
 
@@ -113,7 +114,7 @@ const Home = () => {
           </div>
         </div>
       </main>
-
+    <WhatsAppSupport />
       {/* Location Modal */}
       {showLocationModal && (
         <PatientPage

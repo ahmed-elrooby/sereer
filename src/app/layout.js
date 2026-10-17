@@ -6,7 +6,6 @@ import QueryProvider from "./providers/Query.jsx";
 import Auth from "./providers/Auth.jsx";
 
 import { Toaster } from "react-hot-toast";
-import WhatsAppSupport from "./components/WhatsAppSupport.jsx";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -82,7 +81,7 @@ export default function RootLayout({ children }) {
         </QueryProvider>
 
         <Toaster />
-        <WhatsAppSupport />
+    
       </body>
     </html>
   );

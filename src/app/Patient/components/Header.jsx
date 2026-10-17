@@ -8,15 +8,14 @@ import logo from "../../../images/logo.png";
 const Header = () => {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-slate-100 bg-white/95 backdrop-blur-md">
-      <div className="mx-auto flex h-[72px] w-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+      <div className=" flex h-[72px] w-full items-center justify-between px-4 md:px-6 lg:px-8">
 
         {/* Logo */}
         <Link
           href="/Patient"
           aria-label="عناية وحضّانة - الصفحة الرئيسية"
-          className="flex items-center gap-3 group"
         >
-          <div className="flex items-center justify-center overflow-hidden transition-all duration-200  h-[120px] w-[120px] shrink-0 ">
+          <div className="flex items-center justify-center overflow-hidden transition-all duration-200 shrink-0 ">
             <Image
               src={logo}
               alt="عناية وحضّانة"
@@ -27,15 +26,7 @@ const Header = () => {
             />
           </div>
 
-          {/* <div className="flex flex-col leading-none">
-            <span className="text-[19px] font-bold tracking-tight text-blue-900 sm:text-[20px]">
-            سرير
-            </span>
-
-<span className="mt-1.5 text-lg font-semibold text-blue-900 sm:text-[11px] font-[Poppins]">
-  sreer
-</span>
-          </div> */}
+         
         </Link>
 
         {/* Desktop */}

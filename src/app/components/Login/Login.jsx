@@ -202,7 +202,7 @@ const Login = () => {
           width={100}
           height={100}
           priority
-          className="h-20 w-20 scale-[1.35] object-contain"
+          className="h-20 w-20 scale-[1.35] rounded-lg object-contain"
         />
       </div>
 

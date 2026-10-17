@@ -386,7 +386,7 @@ const getBedsUpdateText = (date) => {
     </p>
   </div>
 
-<p className="mt-2 text-[10px] text-emerald-500">
+<p className="mt-2 text-[12px] text-emerald-500">
   {
   hospital?.unit?.bedsUpdatedAt &&
   getBedsUpdateText(hospital?.unit?.bedsUpdatedAt)
@@ -396,7 +396,7 @@ const getBedsUpdateText = (date) => {
 
                       </div>
 <div className="flex items-center justify-center gap-2 p-2 mt-3 text-xs font-medium text-red-600 border border-red-100 rounded-xl bg-red-50">
-  <IoWarningSharp className="text-base shrink-0" />
+  <IoWarningSharp className="text-[12px] shrink-0" />
   <p>يُرجى الاتصال قبل التوجه للتأكد من توافر السرير.</p>
 </div>
                       <div className="flex flex-col gap-3 mt-4 sm:flex-row">

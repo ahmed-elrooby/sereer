@@ -4,6 +4,7 @@
 import React, { useContext, useState } from "react";
 import { useParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
+import { IoWarningSharp } from "react-icons/io5";
 
 import {
   FaBedPulse,
@@ -58,7 +59,7 @@ const ResultsClient = () => {
 
   const hospitals = data?.data || [];
   const isNICU = type === "NICU";
-
+console.log(hospitals)
   const pageTitle = isNICU
     ? "الحضّانات المتاحة"
     : "العناية المركزة المتاحة";
@@ -130,6 +131,40 @@ const ResultsClient = () => {
 
     window.open(url, "_blank", "noopener,noreferrer");
   };
+
+
+const getBedsUpdateText = (date) => {
+  if (!date) return "وقت التحديث غير متاح";
+
+  const updatedAt = new Date(date);
+
+  if (Number.isNaN(updatedAt.getTime())) {
+    return "وقت التحديث غير متاح";
+  }
+
+  const diff = Math.max(0, Date.now() - updatedAt.getTime());
+
+  const minutes = Math.floor(diff / 60000);
+  const hours = Math.floor(diff / 3600000);
+  const days = Math.floor(diff / 86400000);
+
+  if (minutes < 1) return "آخر تحديث لعدد السراير المتاحه منذ لحظات";
+
+  if (minutes < 60) {
+    return `آخر تحديث لعدد السراير المتاحه منذ ${minutes} ${minutes === 1 ? "دقيقة" : "دقيقة"}`;
+  }
+
+  if (hours < 24) {
+    return `آخر تحديث لعدد السراير المتاحه منذ ${hours} ${hours === 1 ? "ساعة" : "ساعة"}`;
+  }
+
+  if (days < 30) {
+    return `آخر تحديث لعدد السراير المتاحه منذ ${days} ${days === 1 ? "يوم" : "يوم"}`;
+  }
+
+  return `آخر تحديث لعدد السراير المتاحه بتاريخ ${updatedAt.toLocaleDateString("ar-EG")}`;
+};
+
 
   const handleCall = (phone) => {
     if (!phone) return;
@@ -335,33 +370,35 @@ const ResultsClient = () => {
                       </div>
 
                       <div className="grid gap-3 mt-4 sm:grid-cols-2">
-                        <div className="flex items-center justify-between p-3 border-2 rounded-2xl border-emerald-100 bg-emerald-50/70">
-                          <div className="flex items-center gap-3">
-                            <div className="flex items-center justify-center w-8 h-8 bg-white shadow-sm rounded-xl text-emerald-600 md:h-11 md:w-11">
-                              <FaBedPulse size={19} />
-                            </div>
+                    
+<div className="flex flex-col items-center p-3 border-2 rounded-2xl border-emerald-100 bg-emerald-50/70">
+  <div className="flex items-center justify-center mx-auto text-center gap-0.5">
+    <div className="flex items-center justify-center w-8 h-8 bg-white rounded-lg shadow-sm text-emerald-600 md:h-11 md:w-11">
+      <FaBedPulse size={19} />
+    </div>
 
-                            <div>
-                              <p className="text-xs text-slate-500">
-                                الأسرة المتاحة
-                              </p>
-                              <p className="mt-0.5 text-sm font-bold text-slate-900">
-                                {hospital?.unit?.name || unitLabel}
-                              </p>
-                            </div>
-                          </div>
+    <p className="text-2xl font-bold text-emerald-600">
+      {availableBeds}
+    </p>
 
-                          <div className="text-left">
-                            <p className="text-2xl font-bold text-emerald-600">
-                              {availableBeds}
-                            </p>
-                            <p className="text-[11px] font-medium text-emerald-600">
-                              سرير متاح
-                            </p>
-                          </div>
-                        </div>
+    <p className="text-[11px] font-medium text-emerald-600">
+      سرير متاح
+    </p>
+  </div>
+
+<p className="mt-2 text-[10px] text-emerald-500">
+  {
+  hospital?.unit?.bedsUpdatedAt &&
+  getBedsUpdateText(hospital?.unit?.bedsUpdatedAt)
+  }
+</p>
+</div>
+
                       </div>
-
+<div className="flex items-center justify-center gap-2 p-2 mt-3 text-xs font-medium text-red-600 border border-red-100 rounded-xl bg-red-50">
+  <IoWarningSharp className="text-base shrink-0" />
+  <p>يُرجى الاتصال قبل التوجه للتأكد من توافر السرير.</p>
+</div>
                       <div className="flex flex-col gap-3 mt-4 sm:flex-row">
                         <button
                           type="button"

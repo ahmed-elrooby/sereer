@@ -9,7 +9,7 @@ import React, { createContext, useState } from "react";
 import toast from "react-hot-toast";
 import api from "../lib/api.js";
 import { useRouter } from "next/navigation.js";
-
+import Cookies from "js-cookie"
 export const authContext = createContext();
 
 const Auth = ({ children }) => {

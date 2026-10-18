@@ -399,7 +399,7 @@ const getBedsUpdateText = (date) => {
   <IoWarningSharp className="text-[12px] shrink-0" />
   <p>يُرجى الاتصال قبل التوجه للتأكد من توافر السرير.</p>
 </div>
-                      <div className="flex flex-col gap-3 mt-4 sm:flex-row">
+                      <div className="flex flex-row gap-3 mt-4 md:flex-col ">
                         <button
                           type="button"
                           disabled={!hospital.phone}
@@ -407,7 +407,7 @@ const getBedsUpdateText = (date) => {
                           className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-blue-600 px-5 py-3.5 text-sm font-semibold text-white transition hover:bg-blue-700 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-50"
                         >
                           <FaPhone />
-                          اتصال بالمستشفى
+                         اتصل الأن للحجز والاستعلام
                         </button>
 
                         <button
@@ -417,7 +417,7 @@ const getBedsUpdateText = (date) => {
                           className="flex flex-1 items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-5 py-3.5 text-sm font-semibold text-slate-700 transition hover:border-blue-200 hover:bg-blue-50 hover:text-blue-700 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-50"
                         >
                           <FaRoute />
-                          الاتجاهات
+                        موقعنا علي الخريطه
                         </button>
                       </div>
                     </div>

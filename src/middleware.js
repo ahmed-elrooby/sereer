@@ -36,7 +36,7 @@ export function middleware(request) {
     return NextResponse.next();
   }
 
-  // Admin pages
+  // Admin dashboard
   if (pathname.startsWith("/Admin")) {
     if (!token || role !== "platform_admin") {
       return NextResponse.redirect(new URL("/", request.url));
@@ -45,7 +45,7 @@ export function middleware(request) {
     return NextResponse.next();
   }
 
-  // Hospital pages
+  // Hospital dashboard
   if (pathname.startsWith("/Hospital")) {
     if (!token || role !== "hospital_admin") {
       return NextResponse.redirect(new URL("/", request.url));

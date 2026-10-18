@@ -399,7 +399,7 @@ const getBedsUpdateText = (date) => {
   <IoWarningSharp className="text-[12px] shrink-0" />
   <p>يُرجى الاتصال قبل التوجه للتأكد من توافر السرير.</p>
 </div>
-                      <div className="flex flex-row gap-3 mt-4 md:flex-col ">
+                      <div className="flex flex-col gap-3 mt-4 md:flex-row ">
                         <button
                           type="button"
                           disabled={!hospital.phone}

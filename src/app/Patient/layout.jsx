@@ -15,24 +15,20 @@ const websiteSchema = {
     "منصة تساعد في العثور على أقرب حضّانات الأطفال ووحدات العناية المركزة ومعرفة الأسرة المتاحة بالمستشفيات.",
 };
 
-export default function RootLayout({ children }) {
+export default function PatientLayout({ children }) {
   return (
-    <html lang="ar" dir="rtl">
-      <body>
-        <Script
-          id="website-schema"
-          type="application/ld+json"
-          strategy="beforeInteractive"
-        >
-          {JSON.stringify(websiteSchema)}
-        </Script>
+    <PatientContext>
+      <Script
+        id="website-schema"
+        type="application/ld+json"
+        strategy="afterInteractive"
+      >
+        {JSON.stringify(websiteSchema)}
+      </Script>
 
-        <PatientContext>
-          <Header />
-          {children}
-          <Footer />
-        </PatientContext>
-      </body>
-    </html>
+      <Header />
+      {children}
+      <Footer />
+    </PatientContext>
   );
 }

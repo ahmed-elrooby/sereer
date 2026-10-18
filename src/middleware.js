@@ -4,7 +4,6 @@ import { NextResponse } from "next/server";
 export function middleware(request) {
   const { pathname } = request.nextUrl;
 
-  // Public SEO files
   if (
     pathname === "/sitemap.xml" ||
     pathname === "/robots.txt"
@@ -12,59 +11,44 @@ export function middleware(request) {
     return NextResponse.next();
   }
 
-  const token = request.cookies.get("token")?.value;
-  const role = request.cookies.get("role")?.value;
-
-  // Patient - Public
+  // Patient pages are public
   if (pathname.startsWith("/Patient")) {
     return NextResponse.next();
   }
 
-  // Login
+  const token = request.cookies.get("token")?.value;
+  const role = request.cookies.get("role")?.value;
+
+  // Login page
   if (pathname === "/") {
     if (!token) {
       return NextResponse.next();
     }
 
     if (role === "platform_admin") {
-      return NextResponse.redirect(
-        new URL("/Admin", request.url)
-      );
+      return NextResponse.redirect(new URL("/Admin", request.url));
     }
 
     if (role === "hospital_admin") {
-      return NextResponse.redirect(
-        new URL("/Hospital", request.url)
-      );
+      return NextResponse.redirect(new URL("/Hospital", request.url));
     }
 
     return NextResponse.next();
   }
 
-  // Protected Routes
-  if (!token) {
-    return NextResponse.redirect(
-      new URL("/", request.url)
-    );
-  }
-
-  // Admin
+  // Admin pages
   if (pathname.startsWith("/Admin")) {
-    if (role !== "platform_admin") {
-      return NextResponse.redirect(
-        new URL("/", request.url)
-      );
+    if (!token || role !== "platform_admin") {
+      return NextResponse.redirect(new URL("/", request.url));
     }
 
     return NextResponse.next();
   }
 
-  // Hospital
+  // Hospital pages
   if (pathname.startsWith("/Hospital")) {
-    if (role !== "hospital_admin") {
-      return NextResponse.redirect(
-        new URL("/", request.url)
-      );
+    if (!token || role !== "hospital_admin") {
+      return NextResponse.redirect(new URL("/", request.url));
     }
 
     return NextResponse.next();

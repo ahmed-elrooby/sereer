@@ -9,7 +9,6 @@ import React, { createContext, useState } from "react";
 import toast from "react-hot-toast";
 import api from "../lib/api.js";
 import { useRouter } from "next/navigation.js";
-import Cookies from "js-cookie";
 
 export const authContext = createContext();
 
@@ -23,57 +22,42 @@ const Auth = ({ children }) => {
   // =========================
 
   const handleLogin = async (values) => {
-   try {
-    setLoading(true);
-     const { data } = await api.post("/auth/login", values);
+    try {
+      setLoading(true);
 
-    return data;
-  } catch (error) {
-    throw error;
-  }finally {
-    setLoading(false);
-  }
+      const { data } = await api.post("/auth/login", values);
+
+      return data;
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleLoginMutation = useMutation({
     mutationKey: ["login"],
     mutationFn: handleLogin,
 
+    onSuccess: async (data) => {
+      // Clear previous account data
+      await profileQuery.cancelQueries();
+      profileQuery.clear();
 
-onSuccess: async (data) => {
-  // إلغاء أي طلبات قديمة ومسح كاش الحساب السابق
-  await profileQuery.cancelQueries();
-  profileQuery.clear();
+      toast.success(data?.message || "تم تسجيل الدخول بنجاح");
 
-  // حفظ بيانات الحساب الجديد
-  Cookies.set("token", data?.token, {
-    expires: 7,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
-  });
+      const role = data?.user?.role;
 
-  Cookies.set("role", data?.user?.role, {
-    expires: 7,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
-  });
+      if (role === "platform_admin") {
+        router.replace("/Admin");
+        return;
+      }
 
-  toast.success(data?.message || "تم تسجيل الدخول بنجاح");
+      if (role === "hospital_admin") {
+        router.replace("/Hospital");
+        return;
+      }
 
-  const role = data?.user?.role;
-
-  if (role === "platform_admin") {
-    router.replace("/Admin");
-    return;
-  }
-
-  if (role === "hospital_admin") {
-    router.replace("/Hospital");
-    return;
-  }
-
-  router.replace("/");
-},
+      router.replace("/");
+    },
 
     onError: (error) => {
       toast.error(
@@ -93,11 +77,10 @@ onSuccess: async (data) => {
 
   const getProfile = async () => {
     const { data } = await api.get("/profile");
-
     return data;
   };
 
-  const {data:profile}=useQuery({
+  const { data: profile } = useQuery({
     queryKey: ["profile"],
     queryFn: getProfile,
   });
@@ -107,203 +90,219 @@ onSuccess: async (data) => {
   // =========================
 
   const user = profile?.data?.user || null;
-
   const role = user?.role || null;
-  
-// ================= UPDATE PROFILE ================
 
-const handleUpdateProfile = async (values) => {
-  try {
-    setLoading(true);
+  // =========================
+  // Update Profile
+  // =========================
 
-    const isHospitalAdmin =
-      profile?.data?.user?.role === "hospital_admin";
+  const handleUpdateProfile = async (values) => {
+    try {
+      setLoading(true);
 
-    const payload = {
-      user: {
-        name: values.name,
-        email: values.email,
-      },
-    };
+      const isHospitalAdmin =
+        profile?.data?.user?.role === "hospital_admin";
 
-    if (isHospitalAdmin) {
-      payload.facility = {
-        name: values.facilityName,
-        phone: values.facilityPhone,
-
-        location: {
-          type: "Point",
-          coordinates: [
-            Number(values.longitude),
-            Number(values.latitude),
-          ],
+      const payload = {
+        user: {
+          name: values.name,
+          email: values.email,
         },
       };
+
+      if (isHospitalAdmin) {
+        payload.facility = {
+          name: values.facilityName,
+          phone: values.facilityPhone,
+          location: {
+            type: "Point",
+            coordinates: [
+              Number(values.longitude),
+              Number(values.latitude),
+            ],
+          },
+        };
+      }
+
+      const { data } = await api.put("/profile", payload);
+
+      return data;
+    } finally {
+      setLoading(false);
     }
+  };
 
-    const { data } = await api.put("/profile", payload);
+  const [openUpdateProfile, setOpenUpdateProfile] = useState(false);
 
-    return data;
-  } finally {
-    setLoading(false);
-  }
-};
+  const handleUpdateProfileMutation = useMutation({
+    mutationKey: ["updateProfile"],
+    mutationFn: handleUpdateProfile,
 
-const [openUpdateProfile, setOpenUpdateProfile] = useState(false);
+    onSuccess: (data) => {
+      profileQuery.invalidateQueries({
+        queryKey: ["profile"],
+      });
 
-const handleUpdateProfileMutation = useMutation({
-  mutationKey: ["updateProfile"],
-  mutationFn: handleUpdateProfile,
+      toast.success(
+        data?.message || "تم تحديث بيانات المستخدم بنجاح"
+      );
 
-  onSuccess:  (data) => {
-           profileQuery.invalidateQueries(["profile"])
+      setOpenUpdateProfile(false);
+    },
 
-    toast.success(
-      data?.message || "تم تحديث بيانات المستخدم بنجاح"
-    );
-    setOpenUpdateProfile(false);
-  },
+    onError: (error) => {
+      toast.error(
+        error?.response?.data?.message ||
+          "حدث خطأ أثناء تحديث بيانات المستخدم"
+      );
+    },
+  });
 
-  onError: (error) => {
-    toast.error(
-      error?.response?.data?.message ||
-        "حدث خطاء اثناء تحديث بيانات المستخدم"
-    );
-  },
-});
+  const handleUpdateProfileSubmit = (values) => {
+    handleUpdateProfileMutation.mutate(values);
+  };
 
-const handleUpdateProfileSubmit = (values) => {
-  handleUpdateProfileMutation.mutate(values);
-};
-// ============== LOGOUT =============
-const handleLogout = async () => {
-  try {
-    setLoading(true);
+  // =========================
+  // Logout
+  // =========================
 
-    const { data } = await api.post("/auth/logout");
+  const handleLogout = async () => {
+    try {
+      setLoading(true);
 
-    return data;
-  } catch (error) {
-    throw error;
-  } finally {
-    setLoading(false);
-  }
-};
-const handleLogoutMutation = useMutation({
-  mutationKey: ["logout"],
+      const { data } = await api.post("/auth/logout");
 
-  mutationFn: handleLogout,
+      return data;
+    } finally {
+      setLoading(false);
+    }
+  };
 
-onSuccess: async (data) => {
-  // امسح بيانات الحساب القديم أولًا
-  await profileQuery.cancelQueries();
-  profileQuery.clear();
+  const handleLogoutMutation = useMutation({
+    mutationKey: ["logout"],
+    mutationFn: handleLogout,
 
-  // امسح بيانات تسجيل الدخول
-  Cookies.remove("token");
-  Cookies.remove("role");
+    onSuccess: async (data) => {
+      await profileQuery.cancelQueries();
+      profileQuery.clear();
 
-  toast.success(data?.message || "تم تسجيل الخروج بنجاح");
+      toast.success(data?.message || "تم تسجيل الخروج بنجاح");
 
-  router.replace("/");
-},
+      router.replace("/");
+    },
 
-  onError: (error) => {
-    toast.error(
-      error?.response?.data?.message ||
-        "حدث خطأ أثناء تسجيل الخروج"
-    );
-  },
-});
+    onError: (error) => {
+      toast.error(
+        error?.response?.data?.message ||
+          "حدث خطأ أثناء تسجيل الخروج"
+      );
+    },
+  });
 
-const handleLogoutSubmit = () => {
-  handleLogoutMutation.mutate();
-};
-// ================= FORGET PASSWORD ================
-const handleForgetPassword = async (values) => {
-  try {
-    setLoading(true);
-    const { data } = await api.post("/auth/forgot-password", values);
-    return data;
-  } catch (error) {
-    throw error;
-  }finally {
-    setLoading(false);
-  }
-}
-const handleForgetPasswordMutation = useMutation({
-  mutationKey: ["forgetPassword"],
-  mutationFn: handleForgetPassword,
+  const handleLogoutSubmit = () => {
+    handleLogoutMutation.mutate();
+  };
 
-  onSuccess:  (data) => {
-    toast.success(
-      data?.message || "تم ارسال كلمة المرور الى بريدك الالكتروني"
-    );
-  },
+  // =========================
+  // Forgot Password
+  // =========================
 
-  onError: (error) => {
-    toast.error(
-      error?.response?.data?.message ||
-        "حدث خطاء اثناء ارسال كلمة المرور"
-    );
-  },
-});
+  const handleForgetPassword = async (values) => {
+    try {
+      setLoading(true);
 
-const handleForgetPasswordSubmit = (values) => {
-  handleForgetPasswordMutation.mutate(values);
-};
-// ================ RESET PASSWORD =============
-const handleResetPassword = async ({token,values}) => {
-  try {
-    setLoading(true);
-    const { data } = await api.post(`/auth/reset-password`,  {
-      token,
-      newPassword: values.newPassword,
-      confirmPassword: values.confirmPassword,
-    });
-    return data;
-  } catch (error) {
-    throw error;
-  }finally {
-    setLoading(false);
-  }
-}
-const handleResetPasswordMutation = useMutation({
-  mutationKey: ["resetPassword"],
-  mutationFn: handleResetPassword,
+      const { data } = await api.post(
+        "/auth/forgot-password",
+        values
+      );
 
-  onSuccess:  (data) => {
-    toast.success(
-      data?.message || "تم تغيير كلمة المرور بنجاح"
-    );
-    router.push("/")
-  },
+      return data;
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  onError: (error) => {
-    toast.error(
-      error?.response?.data?.message ||
-        "حدث خطاء اثناء تغيير كلمة المرور"
-    );
-  },
-});
+  const handleForgetPasswordMutation = useMutation({
+    mutationKey: ["forgetPassword"],
+    mutationFn: handleForgetPassword,
 
-const handleResetPasswordSubmit = ({token,values}) => {
-  handleResetPasswordMutation.mutate({token,values});
-};
- 
+    onSuccess: (data) => {
+      toast.success(
+        data?.message ||
+          "تم إرسال تعليمات استعادة كلمة المرور إلى بريدك الإلكتروني"
+      );
+    },
+
+    onError: (error) => {
+      toast.error(
+        error?.response?.data?.message ||
+          "حدث خطأ أثناء إرسال طلب استعادة كلمة المرور"
+      );
+    },
+  });
+
+  const handleForgetPasswordSubmit = (values) => {
+    handleForgetPasswordMutation.mutate(values);
+  };
+
+  // =========================
+  // Reset Password
+  // =========================
+
+  const handleResetPassword = async ({ token, values }) => {
+    try {
+      setLoading(true);
+
+      const { data } = await api.post("/auth/reset-password", {
+        token,
+        newPassword: values.newPassword,
+        confirmPassword: values.confirmPassword,
+      });
+
+      return data;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleResetPasswordMutation = useMutation({
+    mutationKey: ["resetPassword"],
+    mutationFn: handleResetPassword,
+
+    onSuccess: (data) => {
+      toast.success(
+        data?.message || "تم تغيير كلمة المرور بنجاح"
+      );
+
+      router.push("/");
+    },
+
+    onError: (error) => {
+      toast.error(
+        error?.response?.data?.message ||
+          "حدث خطأ أثناء تغيير كلمة المرور"
+      );
+    },
+  });
+
+  const handleResetPasswordSubmit = ({ token, values }) => {
+    handleResetPasswordMutation.mutate({ token, values });
+  };
+
   return (
     <authContext.Provider
       value={{
         user,
         role,
         profile,
-
         handleLoginSubmit,
-handleResetPasswordSubmit,
-       loadding,
+        handleResetPasswordSubmit,
+        loadding,
         handleUpdateProfileSubmit,
         openUpdateProfile,
-        setOpenUpdateProfile,handleLogoutSubmit,handleForgetPasswordSubmit
+        setOpenUpdateProfile,
+        handleLogoutSubmit,
+        handleForgetPasswordSubmit,
       }}
     >
       {children}

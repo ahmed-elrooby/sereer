@@ -1,6 +1,6 @@
-"use client"
+
 import { NextResponse } from "next/server";
-import Cookies from "js-cookie";
+
 export function middleware(request) {
   const { pathname } = request.nextUrl;
 
@@ -17,7 +17,7 @@ export function middleware(request) {
   }
 
   const token = request.cookies.get("token")?.value;
-  const role = Cookies.get("role")?.value;
+  const role = request.cookies.get("role")?.value;
 
   // Login page
   if (pathname === "/") {
@@ -26,11 +26,15 @@ export function middleware(request) {
     }
 
     if (role === "platform_admin") {
-      return NextResponse.redirect(new URL("/Admin", request.url));
+      return NextResponse.redirect(
+        new URL("/Admin", request.url)
+      );
     }
 
     if (role === "hospital_admin") {
-      return NextResponse.redirect(new URL("/Hospital", request.url));
+      return NextResponse.redirect(
+        new URL("/Hospital", request.url)
+      );
     }
 
     return NextResponse.next();
@@ -39,7 +43,9 @@ export function middleware(request) {
   // Admin dashboard
   if (pathname.startsWith("/Admin")) {
     if (!token || role !== "platform_admin") {
-      return NextResponse.redirect(new URL("/", request.url));
+      return NextResponse.redirect(
+        new URL("/", request.url)
+      );
     }
 
     return NextResponse.next();
@@ -48,7 +54,9 @@ export function middleware(request) {
   // Hospital dashboard
   if (pathname.startsWith("/Hospital")) {
     if (!token || role !== "hospital_admin") {
-      return NextResponse.redirect(new URL("/", request.url));
+      return NextResponse.redirect(
+        new URL("/", request.url)
+      );
     }
 
     return NextResponse.next();

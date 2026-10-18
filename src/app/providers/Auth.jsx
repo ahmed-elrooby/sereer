@@ -37,28 +37,32 @@ const Auth = ({ children }) => {
     mutationKey: ["login"],
     mutationFn: handleLogin,
 
-    onSuccess: async (data) => {
-      // Clear previous account data
-      await profileQuery.cancelQueries();
-      profileQuery.clear();
+ onSuccess: async (data) => {
+  await profileQuery.cancelQueries();
+  profileQuery.clear();
 
-      toast.success(data?.message || "تم تسجيل الدخول بنجاح");
+  Cookies.set("role", data?.user?.role, {
+    expires: 7,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+  });
 
-      const role = data?.user?.role;
+  toast.success(data?.message || "تم تسجيل الدخول بنجاح");
 
-      if (role === "platform_admin") {
-        router.replace("/Admin");
-        return;
-      }
+  const role = data?.user?.role;
 
-      if (role === "hospital_admin") {
-        router.replace("/Hospital");
-        return;
-      }
+  if (role === "platform_admin") {
+    router.replace("/Admin");
+    return;
+  }
 
-      router.replace("/");
-    },
+  if (role === "hospital_admin") {
+    router.replace("/Hospital");
+    return;
+  }
 
+  router.replace("/");
+},
     onError: (error) => {
       toast.error(
         error?.response?.data?.message ||

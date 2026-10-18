@@ -4,38 +4,43 @@ import Footer from "./components/Footer/Footer.jsx";
 import Header from "./components/Header.jsx";
 
 export const metadata = {
-  metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL || "https://sereer.vercel.app"
-  ),
+  metadataBase: new URL("https://sreer.net"),
 
   title: {
-    default: "سرير | أقرب رعاية ليك",
-    template: "%s | سرير",
+    default: "سرير Sreer | أقرب حضانة أطفال وعناية مركزة",
+    template: "%s | سرير Sreer",
   },
 
   description:
-    "سرير يساعدك في العثور على أقرب حضّانة أطفال أو وحدة عناية مركزة متاحة بالقرب منك، مع معرفة الأسرة المتاحة والتواصل مع المستشفى والحصول على الاتجاهات بسهولة.",
+    "سرير Sreer منصة تساعدك في العثور على أقرب حضانة أطفال أو وحدة عناية مركزة متاحة، ومعرفة الأسرة المتوفرة والتواصل مع المستشفيات والوصول إليها بسهولة.",
 
-  applicationName: "سرير",
+  applicationName: "سرير Sreer",
 
   keywords: [
     "سرير",
-    "حضّانة أطفال",
+    "Sreer",
+    "أقرب حضانة أطفال",
     "حضانات أطفال",
-    "عناية مركزة",
-    "سرير حضانة",
-    "سرير عناية مركزة",
+    "حضانة أطفال متاحة",
+    "أقرب عناية مركزة",
+    "أسرة العناية المركزة",
+    "أسرة المستشفيات المتاحة",
     "مستشفيات",
     "الرعاية الطبية",
   ],
 
+  alternates: {
+    canonical: "/Patient",
+  },
+
   openGraph: {
     type: "website",
     locale: "ar_EG",
-    siteName: "سرير",
-    title: "سرير | أقرب رعاية ليك",
+    url: "https://sreer.net/Patient",
+    siteName: "سرير Sreer",
+    title: "سرير Sreer | أقرب حضانة أطفال وعناية مركزة",
     description:
-      "اعرف أقرب حضّانات الأطفال ووحدات العناية المركزة المتاحة بالقرب منك.",
+      "اعرف أقرب حضانات الأطفال ووحدات العناية المركزة المتاحة، وتعرّف على الأسرة المتوفرة وتواصل مع المستشفى.",
   },
 
   robots: {

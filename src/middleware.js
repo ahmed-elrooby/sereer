@@ -17,7 +17,7 @@ export function middleware(request) {
   }
 
   const token = request.cookies.get("token")?.value;
-  const role = request.cookies.get("role")?.value;
+  const role = Cookies.get("role")?.value;
 
   // Login page
   if (pathname === "/") {

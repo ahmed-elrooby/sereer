@@ -16,22 +16,18 @@ export default function WhatsAppSupport() {
       dir="rtl"
       className="fixed z-50 flex items-center gap-2 bottom-[150px] right-1 md:right-5"
     >
-      {showMessage && (
-        <div className="relative max-w-[240px] rounded-xl bg-white px-3 py-3 pr-7 text-sm font-medium leading-6 text-gray-700 shadow-md">
-          <button
+       {showMessage && (
+        <div className="relative px-1 py-3 text-sm font-medium text-gray-700 bg-white shadow-md pr-7 rounded-xl">
+ لإضافة عناية أو حضّانة لمنصة سرير 
+<br/>
+تواصل معنا          <button
             type="button"
             onClick={() => setShowMessage(false)}
             aria-label="إغلاق الرسالة"
-            className="absolute right-1 top-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-600 text-white transition hover:bg-red-700"
+            className="absolute flex items-center justify-center w-5 h-5 text-gray-400 transition bg-red-600 rounded-full top-1 right-1 "
           >
-            <IoClose size={15} />
+            <IoClose size={15} className="text-white" />
           </button>
-
-          <p>مرحبًا بك 👋</p>
-          <p>
-            لإضافة حضّانة أو وحدة عناية مركزة إلى منصة سرير 🏥
-          </p>
-          <p>تواصل معنا وسنساعدك في الانضمام.</p>
         </div>
       )}
 

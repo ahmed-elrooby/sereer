@@ -1,11 +1,10 @@
-
 import Home from "./components/Home/Home.jsx";
 
 export const metadata = {
-  title: "سرير Sreer | أقرب حضّانة أطفال وعناية مركزة",
+  title: "سرير | sreer — أقرب حضّانة أطفال وعناية مركزة",
 
   description:
-    "منصة سرير Sreer تساعدك في العثور على أقرب حضّانات الأطفال ووحدات العناية المركزة بالمستشفيات. تعرّف على الأسرّة المتاحة، وتواصل مع المستشفى، واحصل على الاتجاهات.",
+    "منصة سرير | sreer تساعدك في العثور على أقرب حضّانات الأطفال ووحدات العناية المركزة بالمستشفيات، ومعرفة الأسرّة المتاحة والتواصل مع المستشفى والوصول إليها.",
 
   alternates: {
     canonical: "https://sreer.net/Patient",
@@ -13,7 +12,7 @@ export const metadata = {
 
   keywords: [
     "سرير",
-    "Sreer",
+    "sreer",
     "sreer.net",
     "منصة سرير",
     "أقرب حضّانة أطفال",
@@ -30,18 +29,10 @@ export const metadata = {
     type: "website",
     locale: "ar_EG",
     url: "https://sreer.net/Patient",
-    siteName: "سرير Sreer",
-    title: "سرير Sreer | أقرب رعاية ليك",
+    siteName: "سرير | sreer",
+    title: "سرير | sreer — أقرب حضّانة أطفال وعناية مركزة",
     description:
-      "ابحث عن أقرب حضّانات الأطفال ووحدات العناية المركزة، وتعرّف على الأسرّة المتاحة بالمستشفيات.",
-    images: [
-      {
-        url: "/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "سرير Sreer - أقرب رعاية ليك",
-      },
-    ],
+      "اعثر على أقرب حضّانات الأطفال ووحدات العناية المركزة، وتعرّف على الأسرّة المتاحة بالمستشفيات.",
   },
 
   robots: {

@@ -1,7 +1,7 @@
 
-export default function sitemap() {
-  const baseUrl = "https://sreer.net";
+const baseUrl = "https://sreer.net";
 
+export default function sitemap() {
   return [
     {
       url: baseUrl,

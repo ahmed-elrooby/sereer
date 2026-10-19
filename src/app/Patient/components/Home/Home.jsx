@@ -90,7 +90,7 @@ const Home = () => {
             <button
               type="button"
               onClick={() => handleNavigate("NICU")}
-              className="flex items-center justify-center gap-4 px-4 py-4 text-white transition-all bg-green-600 rounded-lg hover:bg-green-500"
+              className="flex items-center justify-center gap-4 px-4 py-4 text-white transition-all bg-blue-600 rounded-lg hover:bg-blue-500"
             >
               <FaBedPulse size={30} />
 
@@ -103,7 +103,7 @@ const Home = () => {
             <button
               type="button"
               onClick={() => handleNavigate("ICU")}
-              className="flex items-center justify-center gap-4 px-4 py-4 text-white transition-all bg-red-600 rounded-lg hover:bg-red-500"
+              className="flex items-center justify-center gap-4 px-4 py-4 text-white transition-all bg-green-600 rounded-lg hover:bg-green-500"
             >
               <FaHeartPulse size={30} />
 

@@ -1,10 +1,9 @@
-import { Geist, Geist_Mono } from "next/font/google";
 
+import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
 import QueryProvider from "./providers/Query.jsx";
 import Auth from "./providers/Auth.jsx";
-
 import { Toaster } from "react-hot-toast";
 
 const geistSans = Geist({
@@ -17,52 +16,64 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const siteUrl = "https://sreer.net";
+
 export const metadata = {
-metadataBase: new URL("https://sreer.net"),
+  metadataBase: new URL(siteUrl),
 
   title: {
-    default: "سرير | أقرب رعاية ليك",
-    template: "%s | سرير",
+    default: "سرير Sreer | أقرب رعاية ليك",
+    template: "%s | سرير Sreer",
   },
 
   description:
-    "سرير منصة تساعدك في العثور على أقرب حضّانة أطفال أو وحدة عناية مركزة متاحة بالقرب منك، ومعرفة الأسرة المتاحة والتواصل مع المستشفى بسهولة.",
+    "منصة سرير Sreer تساعدك في الوصول إلى حضّانات الأطفال ووحدات العناية المركزة بالمستشفيات القريبة، ومعرفة الأسرّة المتاحة وطرق التواصل.",
 
-  applicationName: "سرير",
+  applicationName: "سرير Sreer",
 
   keywords: [
     "سرير",
-    "حضّانة أطفال",
-    "حضانات أطفال",
+    "Sreer",
+    "sreer.net",
+    "منصة سرير",
+    "حضانات الأطفال",
+    "حضانات حديثي الولادة",
     "عناية مركزة",
     "أقرب حضانة",
     "أقرب عناية مركزة",
-    "أسرة المستشفيات",
-    "المستشفيات",
-    "الرعاية الطبية",
+    "أسرة المستشفيات المتاحة",
+    "المستشفيات القريبة",
+    "NICU",
+    "ICU",
   ],
 
-  authors: [
-    {
-      name: "Main Tech",
-    },
-  ],
-
+  authors: [{ name: "Main Tech" }],
   creator: "Main Tech",
-  publisher: "Main Tech",
+  publisher: "سرير Sreer",
 
   openGraph: {
     type: "website",
     locale: "ar_EG",
-    siteName: "سرير",
-    title: "سرير | أقرب رعاية ليك",
+    siteName: "سرير Sreer",
+    title: "سرير Sreer | أقرب رعاية ليك",
     description:
-      "اعرف أقرب حضّانة أطفال أو وحدة عناية مركزة متاحة بالقرب منك، وشوف الأسرة المتاحة وتواصل مع المستشفى بسهولة.",
+      "اعرف أقرب حضّانات الأطفال ووحدات العناية المركزة، وتعرّف على الأسرّة المتاحة وطرق التواصل مع المستشفيات.",
+  },
+
+  twitter: {
+    card: "summary",
+    title: "سرير Sreer | أقرب رعاية ليك",
+    description:
+      "منصة سرير للوصول إلى الحضّانات ووحدات العناية المركزة بالمستشفيات القريبة.",
   },
 
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+    },
   },
 };
 
@@ -73,13 +84,28 @@ export default function RootLayout({ children }) {
       dir="rtl"
       className={`${geistSans.variable} ${geistMono.variable}`}
     >
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              name: "سرير",
+              alternateName: ["Sreer", "سرير Sreer"],
+              url: siteUrl,
+              inLanguage: "ar-EG",
+            }),
+          }}
+        />
+      </head>
+
       <body>
         <QueryProvider>
           <Auth>{children}</Auth>
         </QueryProvider>
 
         <Toaster />
-    
       </body>
     </html>
   );

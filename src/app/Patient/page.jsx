@@ -1,12 +1,11 @@
+
 import Home from "./components/Home/Home.jsx";
 
 export const metadata = {
-  metadataBase: new URL("https://sreer.net"),
-
-  title: "سرير | أقرب حضّانة أطفال وعناية مركزة بالمستشفيات",
+  title: "سرير Sreer | أقرب حضّانة أطفال وعناية مركزة",
 
   description:
-    "ابحث عن أقرب حضّانات الأطفال ووحدات العناية المركزة بالمستشفيات عبر منصة سرير. تعرّف على الأسرة المتاحة، وتواصل مع المستشفى، واحصل على الاتجاهات.",
+    "منصة سرير Sreer تساعدك في العثور على أقرب حضّانات الأطفال ووحدات العناية المركزة بالمستشفيات. تعرّف على الأسرّة المتاحة، وتواصل مع المستشفى، واحصل على الاتجاهات.",
 
   alternates: {
     canonical: "https://sreer.net/Patient",
@@ -15,27 +14,44 @@ export const metadata = {
   keywords: [
     "سرير",
     "Sreer",
+    "sreer.net",
+    "منصة سرير",
     "أقرب حضّانة أطفال",
+    "حضّانات حديثي الولادة",
     "حضّانات أطفال بالمستشفيات",
-    "أماكن حضّانات الأطفال",
-    "أقرب وحدة عناية مركزة",
+    "أقرب عناية مركزة",
     "أسرة عناية مركزة متاحة",
     "المستشفيات القريبة",
+    "NICU",
+    "ICU",
   ],
 
   openGraph: {
-    title: "سرير | ابحث عن أقرب حضّانة أطفال وعناية مركزة",
-    description:
-      "اعثر على المستشفيات القريبة التي توفر حضّانات أطفال ووحدات عناية مركزة، وتعرّف على الأسرة المتاحة وبيانات التواصل.",
-    url: "https://sreer.net/Patient",
-    siteName: "سرير",
     type: "website",
     locale: "ar_EG",
+    url: "https://sreer.net/Patient",
+    siteName: "سرير Sreer",
+    title: "سرير Sreer | أقرب رعاية ليك",
+    description:
+      "ابحث عن أقرب حضّانات الأطفال ووحدات العناية المركزة، وتعرّف على الأسرّة المتاحة بالمستشفيات.",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "سرير Sreer - أقرب رعاية ليك",
+      },
+    ],
   },
 
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+    },
   },
 };
 

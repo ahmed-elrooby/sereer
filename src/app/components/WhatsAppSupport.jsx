@@ -14,7 +14,7 @@ export default function WhatsAppSupport() {
   return (
     <div
       dir="rtl"
-      className="fixed z-50 flex items-center gap-2 bottom-[150px] right-1 md:right-5"
+      className="fixed z-50 flex items-center gap-2 bottom-[150px] left-1 md:left-5"
     >
        {showMessage && (
         <div className="relative px-1 py-3 text-sm font-medium text-gray-700 bg-white shadow-md pr-7 rounded-xl">

@@ -8,9 +8,8 @@ import { useState } from "react";
 export default function WhatsAppSupport() {
   const [showMessage, setShowMessage] = useState(true);
 
-  const message =
-    "مرحبًا، أرغب في إضافة حضّانة أو وحدة عناية مركزة إلى منصة سرير. أرجو معرفة خطوات الانضمام.";
-
+const message =
+  "مرحبًا، هل يمكنني إضافة حضّانة أو وحدة عناية مركزة إلى منصة سرير؟ أرجو معرفة خطوات الانضمام.";
   return (
     <div
       dir="rtl"

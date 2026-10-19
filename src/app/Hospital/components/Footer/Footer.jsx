@@ -16,8 +16,7 @@ const Footer = () => {
           </p>
 
           <p className="mt-1 text-[11px] text-slate-400 sm:text-xs">
-            سرير sreer — فكرة و رؤية  د.أدهم محمد
-          </p>
+سرير Sreer — فكرة ورؤية د. أدهم          </p>
         </div>
 
         {/* Main Tech */}

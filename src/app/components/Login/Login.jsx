@@ -174,7 +174,7 @@ const Login = () => {
             <div className="flex items-center justify-between border-t border-[#1E293B] pt-6">
 
               <p className="text-[11px] text-[#475569]">
-                © {new Date().getFullYear()} Seerer
+                © {new Date().getFullYear()} sreer
               </p>
 
               <div className="flex items-center gap-2 text-[10px] text-[#64748B]">
@@ -260,7 +260,7 @@ const Login = () => {
               id="email"
               name="email"
               type="email"
-              placeholder="example@seerer.io"
+              placeholder="example@sreer.io"
               autoComplete="email"
               className="h-12 w-full rounded-xl border border-[#263244] bg-[#0D131D] pr-14 pl-4 text-sm text-[#F8FAFC] outline-none transition-all duration-200 placeholder:text-[#475569] hover:border-[#334155] focus:border-[#38BDF8]/60 focus:bg-[#0F1621] focus:ring-4 focus:ring-[#38BDF8]/5"
             />
@@ -349,7 +349,7 @@ const Login = () => {
     {/* Footer */}
     <div className="mt-8 border-t border-[#1E293B] pt-5 text-center">
       <p className="text-[11px] text-[#475569]">
-        Seerer Healthcare Platform
+        sreer Healthcare Platform
       </p>
     </div>
 
